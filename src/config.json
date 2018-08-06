@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "properties": {
+
+    "background": {
+      "type"        : "string",
+      "default"     : "#000000",
+      "title"       : "Background Color",
+      "description" : "Color of the out of game area on extremely wide devices",
+      "format"      : "color"
+    },
+
+    "game": {
+      "type": "object",
+      "title": "Game Options",
+      "properties": {
+
+      }
+    },
+
+    "loadScreen": {
+      "type": "object",
+      "title": "Load screen",
+      "properties": {
+
+        "minDisplayTime": {
+          "type": "number",
+          "default": 1.5,
+          "title": "Minimum display time",
+          "description": "The minimum number of seconds the load screen should display for if shown",
+          "minimum": 0,
+          "maximum": 10
+        },
+
+        "fadeOutTime": {
+          "type": "number",
+          "default": 0.5,
+          "title": "Fade out time",
+          "description": "Time it takes for the load screen to fade into the game",
+          "minimum": 0,
+          "maximum": 10
+        }
+
+      }
+    },
+
+    "endScreen": {
+      "type": "object",
+      "title": "Success End Screen",
+      "properties": {
+
+          "buttonText": {
+            "type": "string",
+            "default": "INSTALL APP!",
+            "title": "CTA Button Text",
+            "description": "Text to display on the CTA button"
+          },
+
+          "replayButtonText": {
+            "type": "string",
+            "default": "TRY AGAIN",
+            "title": "Replay Button Text",
+            "description": "Text to display on the replay button"
+          }
+
+      }
+    }
+
+  }
+}

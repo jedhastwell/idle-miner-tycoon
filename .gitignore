@@ -1,0 +1,21 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+# dependencies
+node_modules
+
+# build
+dist
+
+# misc
+.DS_Store
+.env
+npm-debug.log*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+stats.json
+
+# Optional npm cache directory
+.npm
