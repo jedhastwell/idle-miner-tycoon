@@ -2,6 +2,7 @@ import * as Pixi      from 'pixi.js';
 import {Container}    from 'pixi.js';
 import Core           from '../core.js';
 import util           from '../util/util.js';
+import World          from './world.js';
 
 const defaults = {};
 
@@ -19,6 +20,8 @@ class Game extends Container {
 
     this._score = 0;
     this._state = null;
+
+    this.restart();
   }
 
   restart() {
@@ -28,9 +31,10 @@ class Game extends Container {
 
   populate () {
 
-    this.restart();
-
     Core.engine.on('tick',this.update, this);
+
+    this._world = new World();
+    this.addChild(this._world);
 
     this.layout();
 
@@ -84,8 +88,25 @@ class Game extends Container {
   }
 
   layout () {
-    const screen = Core.engine.screen;
-    const scale = Core.engine.scale;
+    let screen = Core.engine.screen;
+
+    // Force portrait view.
+    if (screen.width > screen.height) {
+      screen = {width: screen.height, height: screen.width};
+      this._world.rotation = -Math.PI / 2;
+      this._world.position.set(0, screen.width);
+    } else {
+      this._world.rotation = 0;
+      this._world.position.set(0,0);
+    }
+
+    const size = util.limitToRatio(screen, 9/16, 9/16, 9/16, 9/16);
+    const scale = size.width / screen.width;
+    const bounds = {width: screen.width / scale, height: screen.height / scale};
+    
+    this._world.bounds = bounds;
+    this._world.scale.set(scale);
+
   }
 
 }
