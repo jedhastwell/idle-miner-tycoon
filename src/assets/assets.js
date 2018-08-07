@@ -7,6 +7,10 @@ export default function () {
     textures: {
     },
     sheets: {
+      'atlas': {
+        image : require('./images/atlas.png'),
+        data  : require('./images/atlas.json')
+      }
     },
     fonts: null
   }
