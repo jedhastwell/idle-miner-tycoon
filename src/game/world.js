@@ -1,5 +1,7 @@
 import * as Pixi from 'pixi.js';
 import {Sprite, Texture, Container} from 'pixi.js';
+import Refinery  from './refinery.js';
+import Depot     from './depot.js';
 
 const defaults = {
   groundPos: 700,
@@ -33,23 +35,20 @@ class World extends Container {
     this._viewBounds = value;
     this.area.x = (this._viewBounds.width - defaults.span) / 2;
     this.area.height = this._viewBounds.height;
-    console.log(this.area.right);
     this.emit('resize');
   }
 
   populate () {
-    this.addBackground();
+    this.addSky();
+    this.addClouds();
     this.addMountains();
-    this.addGround();
-
+    this.addEarth();
     this.addDepot();
     this.addSurface();
-
     this.addRefinery();
-
   }
 
-  addBackground () {
+  addSky () {
     const skyTexture = Texture.fromImage('sky.png');
     const sky = new Pixi.extras.TilingSprite(skyTexture);
 
@@ -63,6 +62,10 @@ class World extends Container {
 
   }
 
+  addClouds () {
+
+  }
+
   addMountains () {
     const mountains = Sprite.fromImage('bg-mountains.png');
     mountains.anchor.set(0.5, 1);
@@ -70,7 +73,7 @@ class World extends Container {
     this.addChild(mountains);
 
     this.on('resize', () => {
-      mountains.width = this.area.width * 0.7;
+      mountains.width = this.area.width * 0.9;
       mountains.scale.y = mountains.scale.x;
 
       mountains.y = defaults.groundPos;
@@ -93,40 +96,36 @@ class World extends Container {
 
   }
 
-  addGround () {
-    const groundTexture = Texture.fromImage('earth-tile.png');
-    const ground = new Pixi.extras.TilingSprite(groundTexture);
+  addEarth () {
+    const earthTexture = Texture.fromImage('earth-tile.png');
+    const earth = new Pixi.extras.TilingSprite(earthTexture);
 
-    this.addChild(ground);
+    this.addChild(earth);
 
     this.on('resize', () => {
-      ground.width = this.bounds.width;
-      ground.height = this.bounds.height - defaults.groundPos;
-      ground.y = defaults.groundPos;
+      earth.width = this.bounds.width;
+      earth.height = this.bounds.height - defaults.groundPos;
+      earth.y = defaults.groundPos;
     });
 
   }
 
   addDepot () {
-    const depot = Sprite.fromImage('booth-door.png');
+    const depot = new Depot();
     this.addChild(depot);
 
     this.on('resize', () => {
-      depot.anchor.set(1, 1);
       depot.position.set(this.area.right, defaults.depotPos);
     });
-
   }
 
   addRefinery () {
-    const refinery = Sprite.fromImage('booth-window.png');
+    const refinery = new Refinery();
     this.addChild(refinery);
 
     this.on('resize', () => {
-      refinery.anchor.set(0, 1);
       refinery.position.set(this.area.left, defaults.depotPos);
-    })
-
+    });
   }
 
 }
