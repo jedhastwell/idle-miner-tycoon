@@ -91,7 +91,7 @@ class Game extends Container {
     let screen = Core.engine.screen;
 
     // Force portrait view.
-    if (screen.width > screen.height) {
+    if (this.options.rotateWhenLandscape && screen.width > screen.height) {
       screen = {width: screen.height, height: screen.width};
       this._world.rotation = -Math.PI / 2;
       this._world.position.set(0, screen.width);
@@ -103,7 +103,7 @@ class Game extends Container {
     const size = util.limitToRatio(screen, 9/16, 9/16, 9/16, 9/16);
     const scale = size.width / screen.width;
     const bounds = {width: screen.width / scale, height: screen.height / scale};
-    
+
     this._world.bounds = bounds;
     this._world.scale.set(scale);
 

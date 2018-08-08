@@ -15,6 +15,13 @@
       "title": "Game Options",
       "properties": {
 
+        "rotateWhenLandscape": {
+          "type": "boolean",
+          "default": false,
+          "title": "Rotate when landscape",
+          "description": "Causes the game to rotate the view when in landscape orientation"
+        }
+
       }
     },
 
