@@ -3,6 +3,7 @@ import {Sprite, Texture, Container} from 'pixi.js';
 import Refinery  from './refinery.js';
 import Depot     from './depot.js';
 import Elevator  from './elevator.js';
+import Clouds    from './clouds.js';
 
 const defaults = {
   groundPos: 700,
@@ -65,7 +66,14 @@ class World extends Container {
   }
 
   addClouds () {
-
+    const clouds = new Clouds();
+    this.addChild(clouds);
+    this.on('resize', () => {
+      clouds.bounds = {
+        width: this.bounds.width,
+        height: defaults.groundPos * 0.7
+      }
+    });
   }
 
   addMountains () {
