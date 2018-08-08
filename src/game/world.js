@@ -2,6 +2,7 @@ import * as Pixi from 'pixi.js';
 import {Sprite, Texture, Container} from 'pixi.js';
 import Refinery  from './refinery.js';
 import Depot     from './depot.js';
+import Elevator  from './elevator.js';
 
 const defaults = {
   groundPos: 700,
@@ -46,6 +47,7 @@ class World extends Container {
     this.addDepot();
     this.addSurface();
     this.addRefinery();
+    this.addElevator();
   }
 
   addSky () {
@@ -126,6 +128,14 @@ class World extends Container {
     this.on('resize', () => {
       refinery.position.set(this.area.left, defaults.depotPos);
     });
+  }
+
+  addElevator () {
+    const elevator = new Elevator(defaults.levelHeight);
+    this.addChild(elevator);
+    this.on('resize', () => {
+      elevator.position.set(this.area.left, defaults.depotPos);
+    })
   }
 
 }
