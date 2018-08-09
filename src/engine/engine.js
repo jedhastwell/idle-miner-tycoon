@@ -109,6 +109,22 @@ class Engine extends EventEmitter {
     this.emit('tick', elapsed);
   }
 
+  wait (duration) {
+    return new Promise((resolve) => {
+      let time = 0;
+
+      const update = (elapsed) => {
+        time += elapsed;
+        if (time >= duration) {
+          this.off('tick', update);
+          resolve();
+        }
+      }
+
+      this.on('tick', update);
+    });
+  }
+
   get clearColor () {
     return this._pixi.renderer.backgroundColor;
   }
