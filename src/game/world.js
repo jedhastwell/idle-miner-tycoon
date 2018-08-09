@@ -4,10 +4,11 @@ import Refinery  from './refinery.js';
 import Depot     from './depot.js';
 import Elevator  from './elevator.js';
 import Clouds    from './clouds.js';
+import MineShaft from './shaft.js';
 
 const defaults = {
-  groundPos: 700,
-  depotPos: 705,
+  groundPos: 600,
+  depotPos: 605,
   span: 700
 }
 
@@ -49,6 +50,9 @@ class World extends Container {
     this.addSurface();
     this.addRefinery();
     this.addElevator();
+    this.addMineShaft(1);
+    this.addMineShaft(2);
+    this.addMineShaft(3);
   }
 
   addSky () {
@@ -144,6 +148,22 @@ class World extends Container {
     this.on('resize', () => {
       elevator.position.set(this.area.left, defaults.depotPos);
     })
+
+    this._elevator = elevator;
+  }
+
+  addMineShaft (level) {
+    const shaft = new MineShaft(MineShaft.typeForLevel(level));
+    this.addChildAt(shaft, this.getChildIndex(this._elevator));
+    this.on('resize', () => {
+      shaft.position.set(
+        this._elevator.x + this._elevator.width -1,
+        this._elevator.y + Elevator.topForLevel(level)
+      );
+      shaft.span = this.bounds.width - shaft.x;
+    });
+
+    this._elevator.levels = level;
   }
 
 }
