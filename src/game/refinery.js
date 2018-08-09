@@ -1,4 +1,8 @@
-import {Sprite, Container} from 'pixi.js';
+import * as Pixi from 'pixi.js';
+import {Sprite, Texture, Container} from 'pixi.js';
+import Core  from '../core.js';
+import Anims from './animations.js';
+
 
 class Refinery extends Container {
 
@@ -13,8 +17,9 @@ class Refinery extends Container {
     roof.position.set(0, building.y - roof.height);
     this.addChild(roof);
 
-    const pipe = Sprite.fromImage('refinery-out-1.png');
-    pipe.position.set(roof.width, roof.y + roof.height * 0.4);
+    // const pipe = makeAnimatedSprite(pipeAnim);
+    const pipe = Anims.make(Anims.pipe);
+    pipe.position.set(roof.width, roof.y + roof.height * 0.4);4
     this.addChild(pipe);
   }
 
