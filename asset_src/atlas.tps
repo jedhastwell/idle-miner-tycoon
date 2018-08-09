@@ -163,7 +163,7 @@
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>extrude</key>
-            <uint>2</uint>
+            <uint>1</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
@@ -361,6 +361,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/pointer.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,11,40,21</rect>
+                <key>scale9Paddings</key>
+                <rect>20,11,40,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/refinery-out-1.png</key>
             <key type="filename">atlas/refinery-out-2.png</key>
             <key type="filename">atlas/refinery-out-3.png</key>
@@ -376,6 +389,26 @@
                 <rect>23,21,46,42</rect>
                 <key>scale9Paddings</key>
                 <rect>23,21,46,42</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">atlas/shaft-amethyst-earth.png</key>
+            <key type="filename">atlas/shaft-amethyst-wall-2.png</key>
+            <key type="filename">atlas/shaft-gold-earth.png</key>
+            <key type="filename">atlas/shaft-gold-wall-1.png</key>
+            <key type="filename">atlas/shaft-jade-earth.png</key>
+            <key type="filename">atlas/shaft-jade-wall-1.png</key>
+            <key type="filename">atlas/shaft-tunnel-1.png</key>
+            <key type="filename">atlas/shaft-tunnel-2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>35,40,69,79</rect>
+                <key>scale9Paddings</key>
+                <rect>35,40,69,79</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
