@@ -100,12 +100,18 @@ class Game extends Container {
       this._world.position.set(0,0);
     }
 
-    const size = util.limitToRatio(screen, 9/16, 9/16, 9/16, 9/16);
+    const offset = 80;
+
+    const size = util.limitToRatio({width: 700, height: 1400}, 9/16, 9/16, 9/16, 9/16);
     const scale = size.width / screen.width;
-    const bounds = {width: screen.width / scale, height: screen.height / scale};
+    const bounds = {
+      width: screen.width / scale,
+      height: (screen.height + offset) / scale
+    };
 
     this._world.bounds = bounds;
     this._world.scale.set(scale);
+    this._world.y = -offset;
 
   }
 
