@@ -18,6 +18,12 @@ const values = {
   mineUnloadTime: 0.4,
   refinaryUnloadTime: 0.5,
 
+  cashPerAmount: 50,
+
+  getCash: (value) => {
+    return value * values.cashPerAmount;
+  },
+
   getMineUnloadTime: (amount) => {
     return values.mineUnloadTime * amount;
   },
