@@ -1,3 +1,4 @@
+require('./fonts/fonts.css');
 // For webpack public path override to work, we need add require statements in a function call.
 export default function () {
 
@@ -12,7 +13,11 @@ export default function () {
         data  : require('./images/atlas.json')
       }
     },
-    fonts: null
+    fonts: {
+      custom: {
+        families: ['LeageSpartan']
+      }
+    }
   }
 
 };

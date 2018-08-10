@@ -60,8 +60,8 @@ const fontLoader = (assets) => {
         inactive: function() {
           resolve();
         },
-        // TODO: Hard coding google here. Need to add support for other formats.
-        google: assets.fonts.google
+        // TODO: Hard coding custom here. Need to add support for other formats.
+        custom: assets.fonts.custom
       };
       // TODO: Progress is not reported.
       webFonts.load(config);
