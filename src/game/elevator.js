@@ -4,7 +4,7 @@ import TweenLite from 'TweenLite';
 import Anims from './animations.js';
 import Core  from '../core.js';
 import values from './values';
-
+import CashLabel from '../ui/cashLabel.js';
 
 class Elevator extends Container {
 
@@ -27,6 +27,12 @@ class Elevator extends Container {
 
   get amount () {
     return this._amount;
+
+  }
+
+  set amount (value) {
+    this._amount = value;
+    this._amountLabel.value = values.getCash(value);
   }
 
   moveToLevel (level) {
@@ -52,7 +58,7 @@ class Elevator extends Container {
     Core.engine.wait(values.getMineUnloadTime(amount))
     .then(() => {
       Anims.set(this._worker, Anims.elevatorWorkerIdle, true);
-      this._amount += amount;
+      this.amount += amount;
       if (level < this._levels) {
         this.moveToLevel(level + 1).then(() => {
           this.emit('collecting', level + 1);
@@ -60,6 +66,7 @@ class Elevator extends Container {
       } else {
         this.moveToLevel(0).then(() => {
           this.emit('unloading', this.amount);
+          this.amount = 0;
         })
       }
     });
@@ -105,6 +112,7 @@ class Elevator extends Container {
     this._cabPos.y = Elevator.topForLevel(0);
 
     this._addWorker(cab);
+    this._addUi(cab);
 
     cab.interactive = true;
     cab.on('pointertap', () => {
@@ -124,6 +132,12 @@ class Elevator extends Container {
     const bottom = Elevator.bottomForLevel(this.levels);
     this._shaft.height = bottom - this._shaft.y;
     this._bottom.position.set(this._shaft.x, bottom);
+  }
+
+  _addUi (parent) {
+    this._amountLabel = new CashLabel();
+    this._amountLabel.position.set(-40, 8);
+    parent.addChild(this._amountLabel);
   }
 
 }
