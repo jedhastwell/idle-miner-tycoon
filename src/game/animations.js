@@ -85,6 +85,25 @@ const minerCarry = {
   ]
 }
 
+const elevatorWorkerIdle = {
+  loop: true,
+  speed: 0.07,
+  images: [
+    'elevator-worker-1.png',
+    'elevator-worker-2.png'
+  ]
+}
+
+const elevatorWorkerWorking = {
+  loop: true,
+  speed: 0.07,
+  images: [
+    'elevator-worker-2.png',
+    'elevator-worker-3.png',
+    'elevator-worker-1.png'
+  ]
+}
+
 const set = (sprite, anim, play) => {
   if (!anim.textures) {
     anim.textures = [];
@@ -96,6 +115,7 @@ const set = (sprite, anim, play) => {
   if (!sprite) {
     sprite = new Pixi.extras.AnimatedSprite(anim.textures);
   }
+
   sprite.textures = anim.textures;
   sprite.loop = anim.loop;
   sprite.animationSpeed = anim.speed;
@@ -121,6 +141,8 @@ export default {
   minerWalk: minerWalk,
   minerWork: minerWork,
   minerCarry: minerCarry,
+  elevatorWorkerIdle: elevatorWorkerIdle,
+  elevatorWorkerWorking: elevatorWorkerWorking,
   make: make,
   set: set
 }
