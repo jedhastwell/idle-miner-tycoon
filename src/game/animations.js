@@ -28,7 +28,7 @@ const transporter = {
   ]
 }
 
-const set = (sprite, anim) => {
+const set = (sprite, anim, play) => {
   if (!anim.textures) {
     anim.textures = [];
     for (const img of anim.images) {
@@ -40,14 +40,20 @@ const set = (sprite, anim) => {
     sprite = new Pixi.extras.AnimatedSprite(anim.textures);
   }
   sprite.textures = anim.textures;
-  sprite.gotoAndStop(0);
   sprite.loop = anim.loop;
   sprite.animationSpeed = anim.speed;
+
+  if (play) {
+    sprite.gotoAndPlay(0);
+  } else {
+    sprite.gotoAndStop(0);
+  }
+
   return sprite;
 }
 
-const make = (anim) => {
-  return set(null, anim);
+const make = (anim, play) => {
+  return set(null, anim, play);
 }
 
 
