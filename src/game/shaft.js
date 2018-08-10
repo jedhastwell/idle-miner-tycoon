@@ -10,6 +10,7 @@ const defaults = {
   minerIdleX: 170,
   minerWorkX: 320,
 
+  crateX: 20
 }
 
 class MineShaft extends Container {
@@ -83,6 +84,29 @@ class MineShaft extends Container {
     });
 
   }
+
+  addCrate () {
+    const crate = Sprite.fromImage('crate.png');
+    crate.anchor.set(0, 1);
+    crate.position.set(defaults.crateX, this.height - 15);
+    this.addChild(crate);
+
+    /*const load = crate.load = Sprite.fromImage(this._type.loadImage);
+    load.anchor.set(0, 1);
+    load.x = 10 - (crate.width * crate.anchor.x);
+    load.y = - (crate.height * crate.anchor.y);
+    load.visible = true;
+    crate.addChild(load);*/
+
+    const tl = crate.timeline = new TimelineLite({paused: true});
+    tl.to(crate, values.crateUnloadTime, {rotation: -Math.PI / 3});
+    tl.to(crate, values.crateUnloadTime, {rotation: 0});
+
+    this.on('unloading', crate.timeline.play, crate.timeline);
+  }
+
+  unload () {
+    this.emit('unloading');
   }
 
 }
