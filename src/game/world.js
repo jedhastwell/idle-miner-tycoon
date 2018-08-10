@@ -162,7 +162,7 @@ class World extends Container {
 
   addMineShaft (level) {
     const shaft = new MineShaft(MineShaft.typeForLevel(level));
-    this.addChildAt(shaft, this.getChildIndex(this._elevator));
+    this.addChild(shaft);
     this.on('resize', () => {
       shaft.position.set(
         this._elevator.x + this._elevator.width -1,
