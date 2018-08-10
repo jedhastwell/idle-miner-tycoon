@@ -395,6 +395,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/miner-idle-1.png</key>
+            <key type="filename">atlas/miner-idle-2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>33,33,65,65</rect>
+                <key>scale9Paddings</key>
+                <rect>33,33,65,65</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/miner-walk-1.png</key>
             <key type="filename">atlas/miner-walk-2.png</key>
             <key type="filename">atlas/miner-walk-3.png</key>
