@@ -1,33 +1,18 @@
 import * as Pixi from 'pixi.js';
 import {Sprite, Container, Texture} from 'pixi.js';
 import TweenLite from 'TweenLite';
-
-const defaults = {
-  elevatorSpeed: 160,
-  groundLevelTop: 54,
-  firstLevelTop: 180,
-  levelSpacing: 100,
-  levelHeight: 159
-}
+import Anims from './animations.js';
+import Core  from '../core.js';
+import values from './values';
 
 
 class Elevator extends Container {
 
   constructor () {
     super();
-
     this._levels = 1;
-
-    this._shaft = this._addShaft();
-
-    this._bottom = Sprite.fromImage('elevator-bottom.png');
-    this.addChild(this._bottom);
-
-    this._addCab();
-
-    const top = Sprite.fromImage('elevator-top.png');
-    this.addChild(top);
-
+    this._amount = 0;
+    this._populate();
     this._resize();
   }
 
@@ -38,6 +23,58 @@ class Elevator extends Container {
   set levels (value) {
     this._levels = value;
     this._resize();
+  }
+
+  get amount () {
+    return this._amount;
+  }
+
+  moveToLevel (level) {
+    return new Promise((resolve) => {
+      const distance = Math.abs(this._cabPos.y - Elevator.topForLevel(level));
+      if (distance > 0) {
+        const duration = distance / values.elevatorSpeed;
+        TweenLite.to(this._cabPos, duration, {
+          y: Elevator.topForLevel(level),
+          ease: Linear.easeNone,
+          onComplete: resolve
+        });
+      }
+    });
+  }
+
+  collect (amount = 0, level = 0) {
+
+    if (amount > 0) {
+      Anims.set(this._worker, Anims.elevatorWorkerWorking, true);
+    }
+
+    Core.engine.wait(values.getMineUnloadTime(amount))
+    .then(() => {
+      Anims.set(this._worker, Anims.elevatorWorkerIdle, true);
+      this._amount += amount;
+      if (level < this._levels) {
+        this.moveToLevel(level + 1).then(() => {
+          this.emit('collecting', level + 1);
+        })
+      } else {
+        this.moveToLevel(0).then(() => {
+          this.emit('unloading', this.amount);
+        })
+      }
+    });
+  }
+
+  _populate () {
+    this._shaft = this._addShaft();
+
+    this._bottom = Sprite.fromImage('elevator-bottom.png');
+    this.addChild(this._bottom);
+
+    this._addCab();
+
+    const top = Sprite.fromImage('elevator-top.png');
+    this.addChild(top);
   }
 
   _addShaft () {
@@ -67,21 +104,20 @@ class Elevator extends Container {
 
     this._cabPos.y = Elevator.topForLevel(0);
 
-    this.moveToLevel(2);
+    this._addWorker(cab);
+
+    cab.interactive = true;
+    cab.on('pointertap', () => {
+      this.collect(0, 0);
+    });
+
   }
 
-  moveToLevel (level) {
-    return new Promise((resolve) => {
-      const distance = Math.abs(this._cabPos.y - Elevator.topForLevel(level));
-      if (distance > 0) {
-        const duration = distance / defaults.elevatorSpeed;
-        TweenLite.to(this._cabPos, duration, {
-          y: Elevator.topForLevel(level),
-          ease: Linear.easeNone,
-          onComplete: resolve
-        });
-      }
-    });
+  _addWorker (cab) {
+    const worker = this._worker = Anims.make(Anims.elevatorWorkerIdle, true);
+    worker.anchor.set(0.55, 1.1);
+    worker.position.set(0, cab.height - (cab.height * cab.anchor.y));
+    cab.addChild(worker);
   }
 
   _resize () {
@@ -94,14 +130,14 @@ class Elevator extends Container {
 
 Elevator.topForLevel = (level = 0) => {
   if (level > 0) {
-    return defaults.firstLevelTop + (level - 1) * (defaults.levelHeight + defaults.levelSpacing);
+    return values.firstLevelTop + (level - 1) * (values.levelHeight + values.levelSpacing);
   } else {
-    return defaults.groundLevelTop;
+    return values.groundLevelTop;
   }
 }
 
 Elevator.bottomForLevel = (level = 0) => {
-  return Elevator.topForLevel(level) + defaults.levelHeight;
+  return Elevator.topForLevel(level) + values.levelHeight;
 }
 
 export default Elevator

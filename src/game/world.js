@@ -31,11 +31,11 @@ class World extends Container {
 
   }
 
-  get bounds() {
+  get bounds () {
     return this._viewBounds;
   }
 
-  set bounds(value) {
+  set bounds (value) {
     this._viewBounds = value;
     this.area.x = (this._viewBounds.width - defaults.span) / 2;
     this.area.height = this._viewBounds.height;
@@ -55,8 +55,18 @@ class World extends Container {
     this.addMineShaft(2);
   }
 
+  get refinery () {
+    return this._refinery;
+  }
+
   linkComponentEvents () {
     this._warehouse.on('collecting', this._refinery.unload, this._refinery);
+    this._refinery.on('unloading', (amount) => {
+      this._warehouse.collect(amount);
+    });
+    this._elevator.on('unloading', (amount) => {
+      this._refinery.collect(amount);
+    });
   }
 
   addSky () {
@@ -161,7 +171,8 @@ class World extends Container {
   }
 
   addMineShaft (level) {
-    const shaft = new MineShaft(MineShaft.typeForLevel(level));
+    const shaft = new MineShaft(MineShaft.typeForLevel(level), level);
+    // this.addChildAt(shaft, this.getChildIndex(this._elevator));
     this.addChild(shaft);
     this.on('resize', () => {
       shaft.position.set(
@@ -172,6 +183,17 @@ class World extends Container {
     });
 
     this._elevator.levels = level;
+
+    this._elevator.on('collecting', (onLevel) => {
+      if (level == onLevel) {
+        shaft.unload();
+      }
+    });
+
+    shaft.on('unloading', (amount, onLevel) => {
+      this._elevator.collect(amount, onLevel);
+    });
+
   }
 
 }

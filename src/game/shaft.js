@@ -6,20 +6,20 @@ import values from './values';
 
 const defaults = {
   tunnelLength: 2,
-
   minerIdleX: 170,
   minerWorkX: 320,
-
   crateX: 20
 }
 
 class MineShaft extends Container {
 
-  constructor (type) {
+  constructor (type, level) {
     super();
+    this._level = level;
     this._type = type;
     this._span = 100;
-    this.populate();
+    this._amount = 0;
+    this._populate();
   }
 
   get span () {
@@ -31,7 +31,29 @@ class MineShaft extends Container {
     this.emit('resize');
   }
 
-  populate () {
+  get amount () {
+    return this._amount;
+  }
+
+  work () {
+    if (!this._worker.working) {
+      this._worker.timeline.play(0);
+    }
+  }
+
+  unload () {
+    this.emit('unloading', this.amount, this._level);
+    if (this.amount > 0) {
+      const duration = values.getMineUnloadTime(this.amount);
+
+      const tl = new TimelineLite();
+      tl.to(this._crate, duration / 2, {rotation: -Math.PI / 3});
+      tl.set(this, {_amount: 0});
+      tl.to(this._crate, duration / 2, {rotation: 0});
+    }
+  }
+
+  _populate () {
     const tunnelTexture = Texture.fromImage(this._type.tunnelImage);
     const tunnel = new Pixi.extras.TilingSprite(tunnelTexture);
     tunnel.height = tunnelTexture.height;
@@ -53,11 +75,11 @@ class MineShaft extends Container {
       earth.width = this.span - earth.x;
     });
 
-    this.addWorker();
-    this.addCrate();
+    this._addWorker();
+    this._addCrate();
   }
 
-  addWorker () {
+  _addWorker () {
     const worker = this._worker = Anims.make(Anims.minerIdle, true);
     worker.anchor.set(0.5, 1);
     worker.position.set(defaults.minerIdleX, this.height);
@@ -74,39 +96,20 @@ class MineShaft extends Container {
     tl.to(worker, values.minerWorkTime, {x: defaults.minerIdleX, ease: Linear.easeNone});
 
     tl.call(Anims.set, [worker, Anims.minerIdle, true], this);
+    tl.call(() => {
+      this._amount += this._type.amount;
+    }, [], this);
     tl.set(worker, {working: false});
 
     worker.interactive = true;
-    worker.on('pointertap', ()=>{
-      if (!worker.working) {
-        worker.timeline.play(0);
-      }
-    });
-
+    worker.on('pointertap', this.work, this);
   }
 
-  addCrate () {
-    const crate = Sprite.fromImage('crate.png');
+  _addCrate () {
+    const crate = this._crate = Sprite.fromImage('crate.png');
     crate.anchor.set(0, 1);
     crate.position.set(defaults.crateX, this.height - 15);
     this.addChild(crate);
-
-    /*const load = crate.load = Sprite.fromImage(this._type.loadImage);
-    load.anchor.set(0, 1);
-    load.x = 10 - (crate.width * crate.anchor.x);
-    load.y = - (crate.height * crate.anchor.y);
-    load.visible = true;
-    crate.addChild(load);*/
-
-    const tl = crate.timeline = new TimelineLite({paused: true});
-    tl.to(crate, values.crateUnloadTime, {rotation: -Math.PI / 3});
-    tl.to(crate, values.crateUnloadTime, {rotation: 0});
-
-    this.on('unloading', crate.timeline.play, crate.timeline);
-  }
-
-  unload () {
-    this.emit('unloading');
   }
 
 }
@@ -115,17 +118,20 @@ MineShaft.Types = {
   Gold: {
     tunnelImage: 'shaft-tunnel-1.png',
     wallImage: 'shaft-gold-wall-1.png',
-    earthImage: 'shaft-gold-earth.png'
+    earthImage: 'shaft-gold-earth.png',
+    amount: 1
   },
   Amethyst: {
     tunnelImage: 'shaft-tunnel-1.png',
     wallImage: 'shaft-amethyst-wall-1.png',
-    earthImage: 'shaft-amethyst-earth.png'
+    earthImage: 'shaft-amethyst-earth.png',
+    amount: 1.5
   },
   Jade: {
     tunnelImage: 'shaft-tunnel-2.png',
     wallImage: 'shaft-jade-wall-2.png',
-    earthImage: 'shaft-jade-earth.png'
+    earthImage: 'shaft-jade-earth.png',
+    amount: 2
   }
 }
 

@@ -22,13 +22,29 @@ class Refinery extends Container {
     pipe.position.set(roof.width, roof.y + roof.height * 0.4);4
     this.addChild(pipe);
 
+    this._amount = 0;
+
+  }
+
+  get amount () {
+    return this._amount;
+  }
+
+  collect (amount) {
+    this._amount += amount;
   }
 
   unload () {
+    const duration = values.getRefinaryUnloadTime(this.amount);
+
+    this.emit('unloading', this.amount);
+
     this._pipe.play(0);
-    Core.engine.wait(values.transportPause).then(() => {
+    Core.engine.wait(duration).then(() => {
       this._pipe.gotoAndStop(0);
     });
+
+    this._amount = 0;
   }
 
 
