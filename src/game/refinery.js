@@ -3,6 +3,7 @@ import {Sprite, Texture, Container} from 'pixi.js';
 import Core  from '../core.js';
 import Anims from './animations.js';
 import values from './values';
+import CashLabel from '../ui/cashLabel.js';
 
 
 class Refinery extends Container {
@@ -22,7 +23,11 @@ class Refinery extends Container {
     pipe.position.set(roof.width, roof.y + roof.height * 0.4);4
     this.addChild(pipe);
 
-    this._amount = 0;
+    this._amountLabel = new CashLabel();
+    this._amountLabel.position.set(building.width * 0.3, roof.y + roof.height  * 0.3);
+    this.addChild(this._amountLabel);
+
+    this.amount = 0;
 
   }
 
@@ -30,8 +35,13 @@ class Refinery extends Container {
     return this._amount;
   }
 
+  set amount (value) {
+    this._amount = value;
+    this._amountLabel.value = values.getCash(this._amount);
+  }
+
   collect (amount) {
-    this._amount += amount;
+    this.amount += amount;
   }
 
   unload () {
@@ -44,7 +54,7 @@ class Refinery extends Container {
       this._pipe.gotoAndStop(0);
     });
 
-    this._amount = 0;
+    this.amount = 0;
   }
 
 
