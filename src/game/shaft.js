@@ -54,23 +54,23 @@ MineShaft.Types = {
     wallImage: 'shaft-gold-wall-1.png',
     earthImage: 'shaft-gold-earth.png'
   },
-  Jade: {
-    tunnelImage: 'shaft-tunnel-1.png',
-    wallImage: 'shaft-jade-wall-1.png',
-    earthImage: 'shaft-jade-earth.png'
-  },
   Amethyst: {
-    tunnelImage: 'shaft-tunnel-2.png',
-    wallImage: 'shaft-amethyst-wall-2.png',
+    tunnelImage: 'shaft-tunnel-1.png',
+    wallImage: 'shaft-amethyst-wall-1.png',
     earthImage: 'shaft-amethyst-earth.png'
+  },
+  Jade: {
+    tunnelImage: 'shaft-tunnel-2.png',
+    wallImage: 'shaft-jade-wall-2.png',
+    earthImage: 'shaft-jade-earth.png'
   }
 }
 
 MineShaft.typeForLevel = (level) => {
   const levels = [
     MineShaft.Types.Gold,
-    MineShaft.Types.Jade,
-    MineShaft.Types.Amethyst
+    MineShaft.Types.Amethyst,
+    MineShaft.Types.Jade
   ];
   return levels[level - 1];
 }
