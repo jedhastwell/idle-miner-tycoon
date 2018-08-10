@@ -376,6 +376,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/elevator-worker-1.png</key>
+            <key type="filename">atlas/elevator-worker-2.png</key>
+            <key type="filename">atlas/elevator-worker-3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>18,29,37,59</rect>
+                <key>scale9Paddings</key>
+                <rect>18,29,37,59</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/miner-carry-1.png</key>
             <key type="filename">atlas/miner-carry-2.png</key>
             <key type="filename">atlas/miner-carry-3.png</key>
