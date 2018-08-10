@@ -28,6 +28,63 @@ const transporter = {
   ]
 }
 
+const minerIdle = {
+  loop: true,
+  speed: 0.03,
+  images: [
+    'miner-idle-1.png',
+    'miner-idle-1.png',
+    'miner-idle-2.png'
+  ]
+}
+
+const minerWalk = {
+  loop: true,
+  speed: 0.15,
+  images: [
+    'miner-walk-1.png',
+    'miner-walk-2.png',
+    'miner-walk-3.png',
+    'miner-walk-4.png',
+    'miner-walk-5.png',
+    'miner-walk-6.png',
+    'miner-walk-7.png'
+  ]
+}
+
+const minerWork = {
+  loop: true,
+  speed: 0.15,
+  images: [
+    'miner-work-1.png',
+    'miner-work-2.png',
+    'miner-work-3.png',
+    'miner-work-4.png',
+    'miner-work-5.png',
+    'miner-work-6.png',
+    'miner-work-7.png',
+    'miner-work-8.png',
+    'miner-work-9.png',
+    'miner-work-10.png',
+    'miner-work-11.png',
+    'miner-work-12.png'
+  ]
+}
+
+const minerCarry = {
+  loop: true,
+  speed: 0.15,
+  images: [
+    'miner-carry-1.png',
+    'miner-carry-2.png',
+    'miner-carry-3.png',
+    'miner-carry-4.png',
+    'miner-carry-5.png',
+    'miner-carry-6.png',
+    'miner-carry-7.png'
+  ]
+}
+
 const set = (sprite, anim, play) => {
   if (!anim.textures) {
     anim.textures = [];
@@ -60,6 +117,10 @@ const make = (anim, play) => {
 export default {
   pipe: pipe,
   transporter: transporter,
+  minerIdle: minerIdle,
+  minerWalk: minerWalk,
+  minerWork: minerWork,
+  minerCarry: minerCarry,
   make: make,
   set: set
 }
