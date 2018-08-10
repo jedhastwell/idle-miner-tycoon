@@ -1,8 +1,15 @@
 import * as Pixi from 'pixi.js';
 import {Sprite, Texture, Container} from 'pixi.js';
+import Anims from './animations.js';
+import TimelineLite from 'TimelineLite';
+import values from './values';
 
 const defaults = {
-  tunnelLength: 2
+  tunnelLength: 2,
+
+  minerIdleX: 170,
+  minerWorkX: 320,
+
 }
 
 class MineShaft extends Container {
@@ -44,6 +51,38 @@ class MineShaft extends Container {
     this.on('resize', () => {
       earth.width = this.span - earth.x;
     });
+
+    this.addWorker();
+    this.addCrate();
+  }
+
+  addWorker () {
+    const worker = this._worker = Anims.make(Anims.minerIdle, true);
+    worker.anchor.set(0.5, 1);
+    worker.position.set(defaults.minerIdleX, this.height);
+    this.addChild(worker);
+
+    const tl = worker.timeline = new TimelineLite({paused: true});
+    tl.set(worker, {working: true});
+    tl.call(Anims.set, [worker, Anims.minerWalk, true], this);
+    tl.to(worker, values.minerWalkTime, {x: defaults.minerWorkX, ease: Linear.easeNone});
+
+    tl.call(Anims.set, [worker, Anims.minerWork, true], this);
+
+    tl.call(Anims.set, [worker, Anims.minerCarry, true], this, '+=' + values.minerWorkTime);
+    tl.to(worker, values.minerWorkTime, {x: defaults.minerIdleX, ease: Linear.easeNone});
+
+    tl.call(Anims.set, [worker, Anims.minerIdle, true], this);
+    tl.set(worker, {working: false});
+
+    worker.interactive = true;
+    worker.on('pointertap', ()=>{
+      if (!worker.working) {
+        worker.timeline.play(0);
+      }
+    });
+
+  }
   }
 
 }
