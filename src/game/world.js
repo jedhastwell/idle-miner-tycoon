@@ -1,14 +1,14 @@
 import * as Pixi from 'pixi.js';
 import {Sprite, Texture, Container} from 'pixi.js';
 import Refinery  from './refinery.js';
-import Depot     from './depot.js';
+import Warehouse from './warehouse.js';
 import Elevator  from './elevator.js';
 import Clouds    from './clouds.js';
 import MineShaft from './shaft.js';
 
 const defaults = {
   groundPos: 600,
-  depotPos: 605,
+  warehousePos: 605,
   span: 700
 }
 
@@ -24,6 +24,7 @@ class World extends Container {
     this.bounds = bounds || { width: 750, height: 1334 };
 
     this.populate();
+    this.linkComponentEvents();
 
     // Force layouts.
     this.emit('resize');
@@ -46,13 +47,16 @@ class World extends Container {
     this.addClouds();
     this.addMountains();
     this.addEarth();
-    this.addDepot();
     this.addSurface();
-    this.addRefinery();
-    this.addElevator();
+    this._warehouse = this.addWarehouse();
+    this._refinery  = this.addRefinery();
+    this._elevator  = this.addElevator();
     this.addMineShaft(1);
     this.addMineShaft(2);
-    this.addMineShaft(3);
+  }
+
+  linkComponentEvents () {
+    this._warehouse.on('collecting', this._refinery.unload, this._refinery);
   }
 
   addSky () {
@@ -124,13 +128,15 @@ class World extends Container {
 
   }
 
-  addDepot () {
-    const depot = new Depot();
-    this.addChild(depot);
+  addWarehouse () {
+    const warehouse = new Warehouse();
+    this.addChild(warehouse);
 
     this.on('resize', () => {
-      depot.position.set(this.area.right, defaults.depotPos);
+      warehouse.position.set(this.area.right, defaults.warehousePos);
     });
+
+    return warehouse;
   }
 
   addRefinery () {
@@ -138,18 +144,20 @@ class World extends Container {
     this.addChild(refinery);
 
     this.on('resize', () => {
-      refinery.position.set(this.area.left, defaults.depotPos);
+      refinery.position.set(this.area.left, defaults.warehousePos);
     });
+
+    return refinery;
   }
 
   addElevator () {
     const elevator = new Elevator(defaults.levelHeight);
     this.addChild(elevator);
     this.on('resize', () => {
-      elevator.position.set(this.area.left, defaults.depotPos);
+      elevator.position.set(this.area.left, defaults.warehousePos);
     })
 
-    this._elevator = elevator;
+    return elevator;
   }
 
   addMineShaft (level) {
