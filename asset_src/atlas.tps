@@ -240,6 +240,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/cart-load-1.png</key>
+            <key type="filename">atlas/cart-load-2.png</key>
+            <key type="filename">atlas/cart-load-3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,9,30,17</rect>
+                <key>scale9Paddings</key>
+                <rect>15,9,30,17</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/cloud-1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -361,6 +376,68 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/miner-carry-1.png</key>
+            <key type="filename">atlas/miner-carry-2.png</key>
+            <key type="filename">atlas/miner-carry-3.png</key>
+            <key type="filename">atlas/miner-carry-4.png</key>
+            <key type="filename">atlas/miner-carry-5.png</key>
+            <key type="filename">atlas/miner-carry-6.png</key>
+            <key type="filename">atlas/miner-carry-7.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>28,29,56,57</rect>
+                <key>scale9Paddings</key>
+                <rect>28,29,56,57</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">atlas/miner-walk-1.png</key>
+            <key type="filename">atlas/miner-walk-2.png</key>
+            <key type="filename">atlas/miner-walk-3.png</key>
+            <key type="filename">atlas/miner-walk-4.png</key>
+            <key type="filename">atlas/miner-walk-5.png</key>
+            <key type="filename">atlas/miner-walk-6.png</key>
+            <key type="filename">atlas/miner-walk-7.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>23,29,47,57</rect>
+                <key>scale9Paddings</key>
+                <rect>23,29,47,57</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">atlas/miner-work-1.png</key>
+            <key type="filename">atlas/miner-work-10.png</key>
+            <key type="filename">atlas/miner-work-11.png</key>
+            <key type="filename">atlas/miner-work-12.png</key>
+            <key type="filename">atlas/miner-work-2.png</key>
+            <key type="filename">atlas/miner-work-3.png</key>
+            <key type="filename">atlas/miner-work-4.png</key>
+            <key type="filename">atlas/miner-work-5.png</key>
+            <key type="filename">atlas/miner-work-6.png</key>
+            <key type="filename">atlas/miner-work-7.png</key>
+            <key type="filename">atlas/miner-work-8.png</key>
+            <key type="filename">atlas/miner-work-9.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>31,32,61,63</rect>
+                <key>scale9Paddings</key>
+                <rect>31,32,61,63</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/pointer.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -393,11 +470,11 @@
                 <false/>
             </struct>
             <key type="filename">atlas/shaft-amethyst-earth.png</key>
-            <key type="filename">atlas/shaft-amethyst-wall-2.png</key>
+            <key type="filename">atlas/shaft-amethyst-wall-1.png</key>
             <key type="filename">atlas/shaft-gold-earth.png</key>
             <key type="filename">atlas/shaft-gold-wall-1.png</key>
             <key type="filename">atlas/shaft-jade-earth.png</key>
-            <key type="filename">atlas/shaft-jade-wall-1.png</key>
+            <key type="filename">atlas/shaft-jade-wall-2.png</key>
             <key type="filename">atlas/shaft-tunnel-1.png</key>
             <key type="filename">atlas/shaft-tunnel-2.png</key>
             <struct type="IndividualSpriteSettings">
