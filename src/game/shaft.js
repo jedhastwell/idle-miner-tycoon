@@ -3,6 +3,7 @@ import {Sprite, Texture, Container} from 'pixi.js';
 import Anims from './animations.js';
 import TimelineLite from 'TimelineLite';
 import values from './values';
+import CashLabel from '../ui/cashLabel.js';
 
 const defaults = {
   tunnelLength: 2,
@@ -35,6 +36,11 @@ class MineShaft extends Container {
     return this._amount;
   }
 
+  set amount (value) {
+    this._amount = value;
+    this._amountLabel.value = values.getCash(value);
+  }
+
   work () {
     if (!this._worker.working) {
       this._worker.timeline.play(0);
@@ -48,7 +54,7 @@ class MineShaft extends Container {
 
       const tl = new TimelineLite();
       tl.to(this._crate, duration / 2, {rotation: -Math.PI / 3});
-      tl.set(this, {_amount: 0});
+      tl.set(this, {amount: 0});
       tl.to(this._crate, duration / 2, {rotation: 0});
     }
   }
@@ -77,6 +83,7 @@ class MineShaft extends Container {
 
     this._addWorker();
     this._addCrate();
+    this._addUi();
   }
 
   _addWorker () {
@@ -97,7 +104,7 @@ class MineShaft extends Container {
 
     tl.call(Anims.set, [worker, Anims.minerIdle, true], this);
     tl.call(() => {
-      this._amount += this._type.amount;
+      this.amount += this._type.amount;
     }, [], this);
     tl.set(worker, {working: false});
 
@@ -110,6 +117,13 @@ class MineShaft extends Container {
     crate.anchor.set(0, 1);
     crate.position.set(defaults.crateX, this.height - 15);
     this.addChild(crate);
+  }
+
+  _addUi () {
+    this._amountLabel = new CashLabel();
+    const cb = this._crate.getBounds();
+    this._amountLabel.position.set(cb.left, cb.top - 50);
+    this.addChild(this._amountLabel);
   }
 
 }
