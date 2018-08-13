@@ -412,6 +412,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/explosion-particle.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>28,33,55,66</rect>
+                <key>scale9Paddings</key>
+                <rect>28,33,55,66</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/miner-carry-1.png</key>
             <key type="filename">atlas/miner-carry-2.png</key>
             <key type="filename">atlas/miner-carry-3.png</key>
