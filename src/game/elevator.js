@@ -5,6 +5,7 @@ import Anims from './animations.js';
 import Core  from '../core.js';
 import values from './values';
 import CashLabel from '../ui/cashLabel.js';
+import util from '../util/util.js';
 
 class Elevator extends Container {
 
@@ -31,6 +32,7 @@ class Elevator extends Container {
   }
 
   set amount (value) {
+    this._load.visible = value > 0;
     this._amount = value;
     this._amountLabel.value = values.getCash(value);
   }
@@ -53,6 +55,7 @@ class Elevator extends Container {
 
     if (amount > 0) {
       Anims.set(this._worker, Anims.elevatorWorkerWorking, true);
+      this._updateLoad(this.amount + amount, level);
     }
 
     Core.engine.wait(values.getMineUnloadTime(amount))
@@ -111,6 +114,7 @@ class Elevator extends Container {
 
     this._cabPos.y = Elevator.topForLevel(0);
 
+    this._addLoad(cab);
     this._addWorker(cab);
     this._addUi(cab);
 
@@ -126,6 +130,23 @@ class Elevator extends Container {
     worker.anchor.set(0.55, 1.1);
     worker.position.set(0, cab.height - (cab.height * cab.anchor.y));
     cab.addChild(worker);
+  }
+
+  _addLoad (cab) {
+    const load = this._load = Sprite.fromImage('elevator-load-gold-1.png');
+    load.anchor.set(0.5, 1);
+    load.position.set(
+      cab.width / 2 - cab.width * cab.anchor.x, 
+      cab.height - 13 - cab.height * cab.anchor.y
+    );
+    load.visible = false;
+    cab.addChild(load);
+  }
+
+  _updateLoad (amount, level) {
+    const i = util.limitNum(Math.round((amount / values.elevatorFullLoadAmount) * 2) + 1, 1, 3);
+    const imgType = ['gold', 'amethyst', 'jade'][util.limitNum(level - 1, 0, 2)];
+    this._load.texture = Texture.from(`elevator-load-${imgType}-${i}.png`);
   }
 
   _resize () {

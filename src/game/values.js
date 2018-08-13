@@ -15,6 +15,8 @@ const values = {
 
   crateUnloadTime: 0.6,
 
+  elevatorFullLoadAmount: 4.5,
+
   mineUnloadTime: 0.4,
   refinaryUnloadTime: 0.5,
 
