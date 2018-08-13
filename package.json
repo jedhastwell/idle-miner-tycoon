@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "gsap": "^2.0.0",
+    "pixi-particles": "^3.0.0",
     "pixi.js": "^4.8.0",
     "webfontloader": "^1.6.28"
   },
