@@ -104,6 +104,45 @@ const elevatorWorkerWorking = {
   ]
 }
 
+const managerJrWorking = {
+  loop: true,
+  speed: 0.15,
+  images: [
+    'manager-jr-work-4.png',
+    'manager-jr-work-5.png',
+    'manager-jr-work-6.png',
+    'manager-jr-work-8.png',
+    'manager-jr-work-8.png',
+    'manager-jr-work-8.png'
+  ]
+}
+
+const managerSrWorking = {
+  loop: true,
+  speed: 0.15,
+  images: [
+    'manager-sr-work-4.png',
+    'manager-sr-work-5.png',
+    'manager-sr-work-6.png',
+    'manager-sr-work-8.png',
+    'manager-sr-work-8.png',
+    'manager-sr-work-8.png'
+  ]
+}
+
+const managerExWorking = {
+  loop: true,
+  speed: 0.15,
+  images: [
+    'manager-ex-work-4.png',
+    'manager-ex-work-5.png',
+    'manager-ex-work-6.png',
+    'manager-ex-work-8.png',
+    'manager-ex-work-8.png',
+    'manager-ex-work-8.png'
+  ]
+}
+
 const set = (sprite, anim, play) => {
   if (!anim.textures) {
     anim.textures = [];
@@ -143,6 +182,9 @@ export default {
   minerCarry: minerCarry,
   elevatorWorkerIdle: elevatorWorkerIdle,
   elevatorWorkerWorking: elevatorWorkerWorking,
+  managerJrWorking: managerJrWorking,
+  managerSrWorking: managerSrWorking,
+  managerExWorking: managerExWorking,
   make: make,
   set: set
 }
