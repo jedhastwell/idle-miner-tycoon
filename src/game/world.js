@@ -5,6 +5,8 @@ import Warehouse from './warehouse.js';
 import Elevator  from './elevator.js';
 import Clouds    from './clouds.js';
 import MineShaft from './shaft.js';
+import effects   from './effects.js';
+import { TweenLite } from 'gsap';
 
 const defaults = {
   groundPos: 600,
@@ -170,20 +172,22 @@ class World extends Container {
     return elevator;
   }
 
-  addMineShaft (level) {
+  addMineShaft (level, instant) {
     const shaft = new MineShaft(MineShaft.typeForLevel(level), level);
-    // this.addChildAt(shaft, this.getChildIndex(this._elevator));
     this.addChild(shaft);
-    this.on('resize', () => {
+
+    const layout = () => {
       shaft.position.set(
         this._elevator.x + this._elevator.width -1,
         this._elevator.y + Elevator.topForLevel(level)
       );
       shaft.span = this.bounds.width - shaft.x;
-    });
+    };
+
+    layout();
+    this.on('resize', layout);
 
     this._elevator.levels = level;
-
     this._elevator.on('collecting', (onLevel) => {
       if (level == onLevel) {
         shaft.unload();
@@ -193,6 +197,11 @@ class World extends Container {
     shaft.on('unloading', (amount, onLevel) => {
       this._elevator.collect(amount, onLevel);
     });
+
+    if (!instant) {
+      TweenLite.fromTo(shaft, 0.4, {alpha: 0}, {alpha: 1});
+      const explosion = effects.explosion(this, shaft.x + shaft.width / 2, shaft.y + shaft.height / 2);
+    }
 
   }
 
