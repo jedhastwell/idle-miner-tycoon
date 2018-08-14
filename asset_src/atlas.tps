@@ -425,6 +425,42 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/manager-ex-work-4.png</key>
+            <key type="filename">atlas/manager-ex-work-5.png</key>
+            <key type="filename">atlas/manager-ex-work-6.png</key>
+            <key type="filename">atlas/manager-ex-work-8.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>19,20,39,41</rect>
+                <key>scale9Paddings</key>
+                <rect>19,20,39,41</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">atlas/manager-jr-work-4.png</key>
+            <key type="filename">atlas/manager-jr-work-5.png</key>
+            <key type="filename">atlas/manager-jr-work-6.png</key>
+            <key type="filename">atlas/manager-jr-work-8.png</key>
+            <key type="filename">atlas/manager-sr-work-4.png</key>
+            <key type="filename">atlas/manager-sr-work-5.png</key>
+            <key type="filename">atlas/manager-sr-work-6.png</key>
+            <key type="filename">atlas/manager-sr-work-8.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>19,27,39,53</rect>
+                <key>scale9Paddings</key>
+                <rect>19,27,39,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/miner-carry-1.png</key>
             <key type="filename">atlas/miner-carry-2.png</key>
             <key type="filename">atlas/miner-carry-3.png</key>
