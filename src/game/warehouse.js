@@ -40,7 +40,12 @@ class Warehouse extends Container {
   }
 
   _addManager () {
-
+    const manager = this._manager = Anims.make(Anims.managerSrWorking);
+    manager.anchor.set(0.5, 1);
+    manager.position.set(-85, 0);
+    manager.scale.x = -1;
+    manager.play();
+    this.addChild(manager);
   }
 
   get amount () {

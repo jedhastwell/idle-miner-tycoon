@@ -57,6 +57,13 @@ class Refinery extends Container {
     this.amount = 0;
   }
 
+  _addManager () {
+    const manager = this._manager = Anims.make(Anims.managerExWorking);
+    manager.anchor.set(0.5, 1);
+    manager.position.set(86, -29);
+    manager.play();
+    this.addChild(manager);
+  }
 
 }
 

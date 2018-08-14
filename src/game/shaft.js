@@ -7,8 +7,9 @@ import CashLabel from '../ui/cashLabel.js';
 
 const defaults = {
   tunnelLength: 2,
-  minerIdleX: 170,
+  minerIdleX: 250,
   minerWorkX: 320,
+  managerX: 130,
   crateX: 20
 }
 
@@ -112,6 +113,14 @@ class MineShaft extends Container {
     worker.on('pointertap', this.work, this);
   }
 
+  _addManager () {
+    const manager = this._manager = Anims.make(Anims.managerJrWorking);
+    manager.anchor.set(0.5, 1);
+    manager.position.set(defaults.managerX, this.height - 14);
+    manager.play();
+    this.addChildAt(manager, this.getChildIndex(this._worker));
+  }
+
   _addCrate () {
     const crate = this._crate = Sprite.fromImage('crate.png');
     crate.anchor.set(0, 1);
@@ -122,7 +131,7 @@ class MineShaft extends Container {
   _addUi () {
     this._amountLabel = new CashLabel();
     const cb = this._crate.getBounds();
-    this._amountLabel.position.set(cb.left, cb.top - 50);
+    this._amountLabel.position.set(cb.left - 10, cb.top - 50);
     this.addChild(this._amountLabel);
   }
 
