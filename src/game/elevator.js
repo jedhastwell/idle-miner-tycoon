@@ -14,7 +14,7 @@ class Elevator extends Container {
     this._levels = 1;
     this._amount = 0;
     this._populate();
-    this._resize();
+    this._resize(true);
   }
 
   get levels () {
@@ -22,13 +22,14 @@ class Elevator extends Container {
   }
 
   set levels (value) {
-    this._levels = value;
-    this._resize();
+    if (this._levels !== value) {
+      this._levels = value;
+      this._resize();
+    }
   }
 
   get amount () {
     return this._amount;
-
   }
 
   set amount (value) {
@@ -62,7 +63,7 @@ class Elevator extends Container {
     .then(() => {
       Anims.set(this._worker, Anims.elevatorWorkerIdle, true);
       this.amount += amount;
-      if (level < this._levels) {
+      if (level < this.levels) {
         this.moveToLevel(level + 1).then(() => {
           this.emit('collecting', level + 1);
         })
@@ -149,10 +150,11 @@ class Elevator extends Container {
     this._load.texture = Texture.from(`elevator-load-${imgType}-${i}.png`);
   }
 
-  _resize () {
+  _resize (instant) {
+    const duration = instant ? 0 : values.elevatorResizeTime;
     const bottom = Elevator.bottomForLevel(this.levels);
-    this._shaft.height = bottom - this._shaft.y;
-    this._bottom.position.set(this._shaft.x, bottom);
+    TweenLite.to(this._shaft, duration, {height: bottom - this._shaft.y});
+    TweenLite.to(this._bottom, duration, {y: bottom});
   }
 
   _addUi (parent) {
