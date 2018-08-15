@@ -614,6 +614,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/ui-button-disabled.png</key>
+            <key type="filename">atlas/ui-button.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>71,30,141,59</rect>
+                <key>scale9Paddings</key>
+                <rect>71,30,141,59</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/ui-coin.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -624,6 +638,19 @@
                 <rect>10,11,20,21</rect>
                 <key>scale9Paddings</key>
                 <rect>10,11,20,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">atlas/ui-top-cash.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>74,18,147,36</rect>
+                <key>scale9Paddings</key>
+                <rect>74,18,147,36</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
