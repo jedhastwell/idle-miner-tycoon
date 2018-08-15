@@ -1,5 +1,6 @@
 import {Container, Sprite} from 'pixi.js';
 import TimelineLite        from 'TimelineLite';
+import core                from '../core';
 
 const defaults = {
   movementRange: 50
@@ -23,12 +24,24 @@ class Pointer extends Container {
     tl.to(arrow, 0.18, {y: 0, width: arrow.texture.width * 0.7, ease: Quad.easeInOut});
     tl.to(arrow, 0.8, {y: -defaults.movementRange, width: arrow.texture.width, ease: Quint.Out});
     tl.call(tl.play, [0], tl, '+=0.3');
-    this.on('destroyed', tl.kill);
+    this.once('destroyed', tl.kill, tl);
   }
 
   destroy () {
     this.emit('destroyed');
     super.destroy({children: true});
+  }
+
+  follow (object) {
+    const offset = {x: object.x - this.x, y: object.y - this.y};
+    const reposition = () => {
+      this.x = object.x + offset.x;
+      this.y = object.y + offset.y;
+    };
+    core.engine.on('resize', reposition, this);
+    this.once('destroyed', () => {
+      core.engine.off('resize', reposition)
+    }, this);
   }
 
 }
