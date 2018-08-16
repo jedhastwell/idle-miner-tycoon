@@ -17,6 +17,8 @@ class Game extends Container {
 
     core.game = this;
 
+    values.set(values.presets.speed);
+
     this.options = util.merge(defaults, options);
 
     this.score = 0;
@@ -33,13 +35,10 @@ class Game extends Container {
   restart() {
     this.score = 0;
     this.cash = 0;
-    this.state = Game.State.Tutorial;
+    this.state = Game.State.Playing;
   }
 
   populate () {
-
-    core.engine.on('tick',this.update, this);
-    
 
     this._world = new World();
     this.addChild(this._world);
@@ -52,7 +51,9 @@ class Game extends Container {
 
     this._world.on('newLevel', (level) => {
       this.layout();
-    })
+    });
+
+    core.engine.on('tick', this.update, this);
 
   }
 
@@ -99,9 +100,13 @@ class Game extends Container {
     if (value == Game.State.Outro) {
       // Outro starting.
       PlayableKit.analytics.outro();
+      this._ui.levelCompleteSequence().then(() => {
+        this.state = Game.State.Over;
+      })
     }
 
     if (value == Game.State.Over) {
+      PlayableKit.analytics.gameOver(true, this.score);
       this.emit('complete');
     }
 
@@ -109,6 +114,12 @@ class Game extends Container {
 
   update (elapsed) {
 
+    if (this.state == Game.State.Playing) {
+      if (this.cash >= values.targetCash) {
+        this.state = Game.State.Outro;
+      }
+    }
+    
 
   }
 

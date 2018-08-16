@@ -53,19 +53,19 @@
 
     "endScreen": {
       "type": "object",
-      "title": "Success End Screen",
+      "title": "End Screen",
       "properties": {
 
-          "buttonText": {
+          "ctaButtonText": {
             "type": "string",
-            "default": "INSTALL APP!",
+            "default": "Install Now",
             "title": "CTA Button Text",
             "description": "Text to display on the CTA button"
           },
 
           "replayButtonText": {
             "type": "string",
-            "default": "TRY AGAIN",
+            "default": "Replay",
             "title": "Replay Button Text",
             "description": "Text to display on the replay button"
           }
