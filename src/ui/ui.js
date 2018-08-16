@@ -5,6 +5,7 @@ import core from "../core";
 import Pointer from "../game/pointer";
 import TotalCashLabel from "./totalCashLabel";
 import values from "../game/values";
+import effects from "../game/effects";
 
 class UI extends Container {
 
@@ -17,7 +18,13 @@ class UI extends Container {
 
     core.engine.on('resize', this._layout, this);
     this._layout();
-    
+
+  }
+
+  levelCompleteSequence () {
+    effects.coinRain(this, 0, -50, core.engine.screen.width);
+
+    return core.engine.wait(2);    
   }
 
   _populate () {
