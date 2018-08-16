@@ -39,14 +39,18 @@ class Mineshaft extends Building {
   }
 
   unload () {
-    this.emit(Building.Events.Unloading, this.amount, this._level);
     if (this.amount > 0) {
       const duration = values.getMineUnloadTime(this.amount);
 
       const tl = new TimelineLite();
       tl.to(this._crate, duration / 2, {rotation: -Math.PI / 3});
-      tl.set(this, {amount: 0});
+      tl.call(() => {
+        this.emit(Building.Events.Unloading, this.amount, this._level);
+        this.amount = 0;
+      }, [], this);
       tl.to(this._crate, duration / 2, {rotation: 0});
+    } else {
+      this.emit(Building.Events.Unloading, 0, this._level);
     }
   }
 
