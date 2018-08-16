@@ -1,12 +1,13 @@
 import * as Pixi from 'pixi.js';
 import {Sprite, Texture, Container} from 'pixi.js';
-import Core  from '../core.js';
+import Building from './building';
+import core  from '../core.js';
 import Anims from './animations.js';
 import values from './values';
 import CashLabel from '../ui/cashLabel.js';
 
 
-class Refinery extends Container {
+class Refinery extends Building {
 
   constructor () {
     super();
@@ -23,38 +24,20 @@ class Refinery extends Container {
     pipe.position.set(roof.width, roof.y + roof.height * 0.4);4
     this.addChild(pipe);
 
-    this._amountLabel = new CashLabel();
-    this._amountLabel.position.set(building.width * 0.3, roof.y + roof.height  * 0.3);
-    this.addChild(this._amountLabel);
-
-    this.amount = 0;
+    this.addAmountLabel(this, building.width * 0.5, roof.y + roof.height  * 0.3);
 
   }
 
-  get amount () {
-    return this._amount;
-  }
-
-  set amount (value) {
-    this._amount = value;
-    this._amountLabel.value = values.getCash(this._amount);
-  }
-
-  collect (amount) {
-    this.amount += amount;
-  }
 
   unload () {
     const duration = values.getRefinaryUnloadTime(this.amount);
 
-    this.emit('unloading', this.amount);
+    super.unload();
 
     this._pipe.play(0);
-    Core.engine.wait(duration).then(() => {
+    core.engine.wait(duration).then(() => {
       this._pipe.gotoAndStop(0);
     });
-
-    this.amount = 0;
   }
 
   _addManager () {
@@ -63,7 +46,10 @@ class Refinery extends Container {
     manager.position.set(86, -29);
     manager.play();
     this.addChild(manager);
+    return manager;
   }
+
+  _work () {}
 
 }
 

@@ -1,10 +1,13 @@
+import Building from './building';
 import {Sprite, Container} from 'pixi.js';
 import Anims from './animations.js';
 import TimelineLite from 'TimelineLite';
 import values from './values';
+import Pointer from './pointer.js';
+import CashLabel from '../ui/cashLabel';
 
 
-class Warehouse extends Container {
+class Warehouse extends Building {
 
   constructor () {
     super();
@@ -18,6 +21,58 @@ class Warehouse extends Container {
     this.addChild(roof);
 
     this._addWorker();
+  }
+
+  _addManager () {
+    const manager = Anims.make(Anims.managerSrWorking);
+    manager.anchor.set(0.5, 1);
+    manager.position.set(-85, 0);
+    manager.scale.x = -1;
+    manager.play();
+    this.addChild(manager);
+    return manager;
+  }
+
+  _addPointer () {
+    const pointer = new Pointer(2);
+    pointer.x = this._worker.x - this._worker.width * 0.25;
+    pointer.y = this._worker.y - this._worker.height;
+    this.addChild(pointer);
+    return pointer;
+  }
+
+
+  _work () {
+    const worker = this._worker;
+
+    const tl = new TimelineLite();
+    // Walk to refinery.
+    tl.call(worker.play, [], worker);
+    tl.to(worker, values.transportTime, {x: -420, ease: Linear.easeNone});
+    // Collect load.
+    tl.call(this.emit, [Building.Events.Collecting], this);
+    tl.call(worker.stop, [], worker);
+  }
+
+  collect (amount) {
+
+    super.collect(amount);
+
+    const wait = values.getRefinaryUnloadTime(amount);
+    const worker = this._worker;
+
+    const tl = new TimelineLite();
+    tl.set(worker.load, {visible: (amount > 0)}, '+=' + wait / 2);
+    // Turn around and walk back to warehouse.
+    tl.call(worker.flip, [], worker, '+=' + wait / 2);
+    tl.call(worker.play, [], worker);
+    tl.to(worker, values.transportTime, {x: -200, ease: Linear.easeNone});
+    // Drop off load.
+    tl.call(worker.stop, [], worker);
+    tl.set(worker.load, {visible: false}, '+=' + values.transportPause / 2);
+    tl.call(this.unload, [], this);
+    tl.call(worker.flip, [], worker, '+=' + values.transportPause / 2);
+    tl.call(this.idle, [], this);
   }
 
   _addWorker () {
@@ -35,60 +90,13 @@ class Warehouse extends Container {
     worker.interactive = true;
     worker.on('pointertap', this.work, this);
 
-    this._amount = 0;
+    const label = this.addAmountLabel(worker, -35, -35, true);
 
-  }
-
-  _addManager () {
-    const manager = this._manager = Anims.make(Anims.managerSrWorking);
-    manager.anchor.set(0.5, 1);
-    manager.position.set(-85, 0);
-    manager.scale.x = -1;
-    manager.play();
-    this.addChild(manager);
-  }
-
-  get amount () {
-    return this._amount;
-  }
-
-  work () {
-    if (!this.working) {
-
-      const worker = this._worker;
-
-      const tl = new TimelineLite();
-      tl.set(this, {working: true});
-      // Walk to refinery.
-      tl.call(worker.play, [], worker);
-      tl.to(worker, values.transportTime, {x: -420, ease: Linear.easeNone});
-      // Collect load.
-      tl.call(this.emit, ['collecting'], this);
-      tl.call(worker.stop, [], worker);
-      tl.call(tl.kill, [], tl);
+    worker.flip = () => {
+      worker.scale.x *= -1;
+      label.scale.x = Math.abs(label.scale.x) * worker.scale.x;
+      label.x = worker.scale.x == -1 ? -30 : -35;
     }
-
-  }
-
-  collect (amount) {
-
-    this._amount = amount;
-
-    const wait = values.getRefinaryUnloadTime(amount);
-    const worker = this._worker;
-
-    const tl = new TimelineLite();
-    tl.set(worker.load, {visible: (amount > 0)}, '+=' + wait / 2);
-    // Turn around and walk back to warehouse.
-    tl.set(worker.scale, {x: -1}, '+=' + wait / 2);
-    tl.call(worker.play, [], worker);
-    tl.to(worker, values.transportTime, {x: -200, ease: Linear.easeNone});
-    // Drop off load.
-    tl.call(worker.stop, [], worker);
-    tl.set(worker.load, {visible: false}, '+=' + values.transportPause / 2);
-    tl.set(worker.scale, {x: 1}, '+=' + values.transportPause / 2);
-    tl.set(this, {working: false});
-    tl.call(this.emit, ['collected'], this);
 
   }
 

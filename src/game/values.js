@@ -10,7 +10,7 @@ const values = {
 
   transportTime: 1.5,
   transportPause: 1,
-  minerWorkTime: 2,
+  minerWorkTime: 1,
   minerWalkTime: 1.5,
 
   crateUnloadTime: 0.6,
@@ -19,9 +19,11 @@ const values = {
   elevatorResizeTime: 0.5,
 
   mineUnloadTime: 0.4,
-  refinaryUnloadTime: 0.5,
+  refinaryUnloadTime: 0.4,
 
   cashPerAmount: 50,
+
+  targetCash: 1000,
 
   getCash: (value) => {
     return value * values.cashPerAmount;

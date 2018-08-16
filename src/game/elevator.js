@@ -1,18 +1,20 @@
 import * as Pixi from 'pixi.js';
 import {Sprite, Container, Texture} from 'pixi.js';
+import Building from './building';
 import TweenLite from 'TweenLite';
 import Anims from './animations.js';
 import Core  from '../core.js';
 import values from './values';
 import CashLabel from '../ui/cashLabel.js';
 import util from '../util/util.js';
+import Pointer from './pointer.js';
 
-class Elevator extends Container {
+class Elevator extends Building {
 
   constructor () {
     super();
     this._levels = 1;
-    this._amount = 0;
+    this._disabled = true;
     this._populate();
     this._resize(true);
   }
@@ -20,7 +22,6 @@ class Elevator extends Container {
   get levels () {
     return this._levels;
   }
-
   set levels (value) {
     if (this._levels !== value) {
       this._levels = value;
@@ -28,17 +29,19 @@ class Elevator extends Container {
     }
   }
 
-  get amount () {
-    return this._amount;
+  get disabled () {
+    return this._disabled;
+  }
+  set disabled (value) {
+    this._disabled = value;
   }
 
-  set amount (value) {
-    this._load.visible = value > 0;
-    this._amount = value;
-    this._amountLabel.value = values.getCash(value);
+  
+  _addManager () {
+    return true;
   }
 
-  moveToLevel (level) {
+  _moveToLevel (level) {
     return new Promise((resolve) => {
       const distance = Math.abs(this._cabPos.y - Elevator.topForLevel(level));
       if (distance > 0) {
@@ -52,28 +55,48 @@ class Elevator extends Container {
     });
   }
 
-  collect (amount = 0, level = 0) {
+  work () {
+    if (!this.disabled) {
+      super.work();
+    }
+  }
 
+  _work () {
+    this.collect(0, 0);
+  }
+
+  collect (amount = 0, level = 0) {
+    
     if (amount > 0) {
       Anims.set(this._worker, Anims.elevatorWorkerWorking, true);
       this._updateLoad(this.amount + amount, level);
     }
 
+    this.amount += amount;
+
     Core.engine.wait(values.getMineUnloadTime(amount))
     .then(() => {
       Anims.set(this._worker, Anims.elevatorWorkerIdle, true);
-      this.amount += amount;
+      
       if (level < this.levels) {
-        this.moveToLevel(level + 1).then(() => {
+        this._moveToLevel(level + 1).then(() => {
           this.emit('collecting', level + 1);
         })
       } else {
-        this.moveToLevel(0).then(() => {
-          this.emit('unloading', this.amount);
-          this.amount = 0;
+        this._moveToLevel(0).then(() => {
+          this.unload();
+          this.idle();
         })
       }
     });
+  }
+
+  _addPointer () {
+    const pointer = new Pointer(1);
+    pointer.x = this._worker.x;
+    pointer.y = this._worker.y - this._worker.height;
+    this._worker.parent.addChild(pointer);
+    return pointer;
   }
 
   _populate () {
@@ -117,12 +140,10 @@ class Elevator extends Container {
 
     this._addLoad(cab);
     this._addWorker(cab);
-    this._addUi(cab);
+    this.addAmountLabel(cab, 0, 8);
 
     cab.interactive = true;
-    cab.on('pointertap', () => {
-      this.collect(0, 0);
-    });
+    cab.on('pointertap', this.work, this);
 
   }
 
@@ -142,6 +163,10 @@ class Elevator extends Container {
     );
     load.visible = false;
     cab.addChild(load);
+
+    this.on(Building.Events.AmountChanged, (value) => {
+      this._load.visible = value > 0;
+    });
   }
 
   _updateLoad (amount, level) {
@@ -155,12 +180,6 @@ class Elevator extends Container {
     const bottom = Elevator.bottomForLevel(this.levels);
     TweenLite.to(this._shaft, duration, {height: bottom - this._shaft.y});
     TweenLite.to(this._bottom, duration, {y: bottom});
-  }
-
-  _addUi (parent) {
-    this._amountLabel = new CashLabel();
-    this._amountLabel.position.set(-40, 8);
-    parent.addChild(this._amountLabel);
   }
 
 }

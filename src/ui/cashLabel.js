@@ -2,8 +2,10 @@ import {Sprite, Texture, Text} from 'pixi.js';
 
 class CashLabel extends Sprite {
 
-  constructor () {
+  constructor (value = 0, centerAlign = false) {
     super(Texture.fromImage('ui-coin.png'));
+
+    this._centerAlign = centerAlign;
 
     this._label = new Text('0',  {
       fontFamily : 'LeageSpartan',
@@ -15,8 +17,9 @@ class CashLabel extends Sprite {
     this._label.position.set(this.width + 10, this.height / 2 -2);
     this.addChild(this._label);
 
-    this.value = 0;
+    this.value = value;
     this.scale.set(0.8, 0.8);
+    this._layout();
   }
 
   get value () {
@@ -26,6 +29,13 @@ class CashLabel extends Sprite {
   set value (newValue) {
     this._value = newValue;
     this._label.text = newValue;
+    this._layout();
+  }
+
+  _layout () {
+    if (this._centerAlign) {
+      this.pivot.x = this.getBounds().width / 2 + 10;
+    }
   }
 
 }

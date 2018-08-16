@@ -4,9 +4,13 @@ import Refinery  from './refinery.js';
 import Warehouse from './warehouse.js';
 import Elevator  from './elevator.js';
 import Clouds    from './clouds.js';
-import MineShaft from './shaft.js';
+import Mineshaft from './mineshaft.js';
 import effects   from './effects.js';
 import { TweenLite } from 'gsap';
+import TextButton from '../ui/textButton.js';
+import core from '../core.js';
+import values from './values.js';
+import Building from './building.js';
 
 const defaults = {
   groundPos: 600,
@@ -21,11 +25,14 @@ class World extends Container {
 
     super();
 
-    // bounds, dimensions, size, boundary, border, rect, field, limits, area
+    this._levels = 0;
+    this._mineShafts = [];
+
     this.area = new Pixi.Rectangle(0,0, defaults.span, 1);
     this.bounds = bounds || { width: 750, height: 1334 };
 
     this.populate();
+
     this.linkComponentEvents();
 
     // Force layouts.
@@ -44,6 +51,10 @@ class World extends Container {
     this.emit('resize');
   }
 
+  get mineShafts () {
+    return this._mineShafts;
+  }
+
   populate () {
     this.addSky();
     this.addClouds();
@@ -53,12 +64,7 @@ class World extends Container {
     this._warehouse = this.addWarehouse();
     this._refinery  = this.addRefinery();
     this._elevator  = this.addElevator();
-    this.addMineShaft(1);
-    this.addMineShaft(2);
-  }
-
-  get refinery () {
-    return this._refinery;
+    
   }
 
   linkComponentEvents () {
@@ -68,7 +74,56 @@ class World extends Container {
     });
     this._elevator.on('unloading', (amount) => {
       this._refinery.collect(amount);
+      this._warehouseIdleCheck();
     });
+    this._warehouse.on('unloading', (amount) => {
+      core.game.score += amount;
+      core.game.cash += amount * values.cashPerAmount;
+    });
+    this._warehouse.on('idle', this._warehouseIdleCheck, this);
+  }
+
+  _warehouseIdleCheck () {
+    if (this._refinery.amount > 0) {
+      this._warehouse.promptWork();
+    }
+  }
+
+  _elevatorIdleCheck () {
+    for(const shaft of this.mineShafts) {
+      if (shaft.amount > 0) {
+        this._elevator.promptWork();
+      }
+    }
+  }
+
+  newLevel () {
+    this._levels++;
+    if (this._levels <= 3) {
+      this.addMineshaft(this._levels);
+      this.emit('newLevel', this._levels);
+    }
+    return this._levels < 3;
+  }
+
+  newManager () {
+    for (const shaft of this._mineShafts) {
+      if (!shaft.hasManager) {
+        shaft.addManager();
+        return;
+      }
+    }
+
+    if (!this._elevator.hasManager) {
+      this._elevator.addManager();
+      this._refinery.addManager();
+      this._elevatorIdleCheck();
+      return;
+    }
+
+    if (!this._warehouse.hasManager) {
+      this._warehouse.addManager();
+    }
   }
 
   addSky () {
@@ -167,14 +222,18 @@ class World extends Container {
     this.addChild(elevator);
     this.on('resize', () => {
       elevator.position.set(this.area.left, defaults.warehousePos);
-    })
+    });
+    elevator.disabled = this.mineShafts.length == 0;
+
+    elevator.on('idle', this._elevatorIdleCheck, this);
 
     return elevator;
   }
 
-  addMineShaft (level, instant) {
-    const shaft = new MineShaft(MineShaft.typeForLevel(level), level);
+  addMineshaft (level, instant) {
+    const shaft = new Mineshaft(Mineshaft.typeForLevel(level), level);
     this.addChild(shaft);
+    this.mineShafts.push(shaft);
 
     const layout = () => {
       shaft.position.set(
@@ -188,6 +247,7 @@ class World extends Container {
     this.on('resize', layout);
 
     this._elevator.levels = level;
+    this._elevator.disabled = false;
     this._elevator.on('collecting', (onLevel) => {
       if (level == onLevel) {
         shaft.unload();
@@ -197,6 +257,10 @@ class World extends Container {
     shaft.on('unloading', (amount, onLevel) => {
       this._elevator.collect(amount, onLevel);
     });
+
+    shaft.on('idle', this._elevatorIdleCheck, this);
+    shaft.promptWork();
+    shaft.on('idle', shaft.promptWork, shaft);
 
     if (!instant) {
       TweenLite.fromTo(shaft, 0.4, {alpha: 0}, {alpha: 1});

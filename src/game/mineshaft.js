@@ -1,9 +1,11 @@
 import * as Pixi from 'pixi.js';
 import {Sprite, Texture, Container} from 'pixi.js';
+import Building from './building';
 import Anims from './animations.js';
 import TimelineLite from 'TimelineLite';
 import values from './values';
 import CashLabel from '../ui/cashLabel.js';
+import Pointer from './pointer.js';
 
 const defaults = {
   tunnelLength: 2,
@@ -13,14 +15,13 @@ const defaults = {
   crateX: 20
 }
 
-class MineShaft extends Container {
+class Mineshaft extends Building {
 
   constructor (type, level) {
     super();
     this._level = level;
     this._type = type;
     this._span = 100;
-    this._amount = 0;
     this._populate();
   }
 
@@ -33,23 +34,12 @@ class MineShaft extends Container {
     this.emit('resize');
   }
 
-  get amount () {
-    return this._amount;
-  }
-
-  set amount (value) {
-    this._amount = value;
-    this._amountLabel.value = values.getCash(value);
-  }
-
-  work () {
-    if (!this._worker.working) {
-      this._worker.timeline.play(0);
-    }
+  _work () {
+    this._worker.timeline.play(0);
   }
 
   unload () {
-    this.emit('unloading', this.amount, this._level);
+    this.emit(Building.Events.Unloading, this.amount, this._level);
     if (this.amount > 0) {
       const duration = values.getMineUnloadTime(this.amount);
 
@@ -58,6 +48,15 @@ class MineShaft extends Container {
       tl.set(this, {amount: 0});
       tl.to(this._crate, duration / 2, {rotation: 0});
     }
+  }
+
+  _addManager () {
+    const manager = Anims.make(Anims.managerJrWorking);
+    manager.anchor.set(0.5, 1);
+    manager.position.set(defaults.managerX, Texture.fromImage(this._type.tunnelImage).height - 14);
+    manager.play();
+    this.addChildAt(manager, this.getChildIndex(this._worker));
+    return manager;
   }
 
   _populate () {
@@ -84,7 +83,17 @@ class MineShaft extends Container {
 
     this._addWorker();
     this._addCrate();
-    this._addUi();
+
+    const cb = this._crate.getBounds();
+    this.addAmountLabel(this, cb.left + cb.width / 2, cb.top - 50);
+  }
+
+  _addPointer () {
+    const pointer = new Pointer();
+    pointer.x = this._worker.x - this._worker.width * 0.25;
+    pointer.y = this._worker.y - this._worker.height;
+    this.addChild(pointer);
+    return pointer;
   }
 
   _addWorker () {
@@ -94,7 +103,6 @@ class MineShaft extends Container {
     this.addChild(worker);
 
     const tl = worker.timeline = new TimelineLite({paused: true});
-    tl.set(worker, {working: true});
     tl.call(Anims.set, [worker, Anims.minerWalk, true], this);
     tl.to(worker, values.minerWalkTime, {x: defaults.minerWorkX, ease: Linear.easeNone});
 
@@ -104,21 +112,11 @@ class MineShaft extends Container {
     tl.to(worker, values.minerWorkTime, {x: defaults.minerIdleX, ease: Linear.easeNone});
 
     tl.call(Anims.set, [worker, Anims.minerIdle, true], this);
-    tl.call(() => {
-      this.amount += this._type.amount;
-    }, [], this);
-    tl.set(worker, {working: false});
-
+    tl.call(this.collect, [this._type.amount], this);
+    tl.call(this.idle, [], this);
+    
     worker.interactive = true;
     worker.on('pointertap', this.work, this);
-  }
-
-  _addManager () {
-    const manager = this._manager = Anims.make(Anims.managerJrWorking);
-    manager.anchor.set(0.5, 1);
-    manager.position.set(defaults.managerX, this.height - 14);
-    manager.play();
-    this.addChildAt(manager, this.getChildIndex(this._worker));
   }
 
   _addCrate () {
@@ -128,16 +126,9 @@ class MineShaft extends Container {
     this.addChild(crate);
   }
 
-  _addUi () {
-    this._amountLabel = new CashLabel();
-    const cb = this._crate.getBounds();
-    this._amountLabel.position.set(cb.left - 10, cb.top - 50);
-    this.addChild(this._amountLabel);
-  }
-
 }
 
-MineShaft.Types = {
+Mineshaft.Types = {
   Gold: {
     tunnelImage: 'shaft-tunnel-1.png',
     wallImage: 'shaft-gold-wall-1.png',
@@ -158,13 +149,13 @@ MineShaft.Types = {
   }
 }
 
-MineShaft.typeForLevel = (level) => {
+Mineshaft.typeForLevel = (level) => {
   const levels = [
-    MineShaft.Types.Gold,
-    MineShaft.Types.Amethyst,
-    MineShaft.Types.Jade
+    Mineshaft.Types.Gold,
+    Mineshaft.Types.Amethyst,
+    Mineshaft.Types.Jade
   ];
   return levels[level - 1];
 }
 
-export default MineShaft
+export default Mineshaft

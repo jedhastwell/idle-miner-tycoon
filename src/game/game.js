@@ -1,8 +1,11 @@
 import * as Pixi      from 'pixi.js';
 import {Container}    from 'pixi.js';
-import Core           from '../core.js';
+import core           from '../core.js';
 import util           from '../util/util.js';
 import World          from './world.js';
+import UI from '../ui/ui.js';
+import Elevator from './elevator.js';
+import values from './values.js';
 
 const defaults = {};
 
@@ -12,31 +15,41 @@ class Game extends Container {
   constructor (options = {}) {
     super();
 
+    core.game = this;
+
     this.options = util.merge(defaults, options);
 
     this.populate();
 
-    Core.engine.on('resize', this.layout, this);
-
-    this._score = 0;
-    this._state = null;
+    core.engine.on('resize', this.layout, this);
 
     this.restart();
+
   }
 
   restart() {
     this.score = 0;
+    this.cash = 0;
     this.state = Game.State.Tutorial;
   }
 
   populate () {
 
-    Core.engine.on('tick',this.update, this);
+    core.engine.on('tick',this.update, this);
+    
 
     this._world = new World();
     this.addChild(this._world);
 
+    this._ui = new UI(this._world);
+    this.addChild(this._ui);
+
     this.layout();
+
+
+    this._world.on('newLevel', (level) => {
+      this.layout();
+    })
 
   }
 
@@ -47,6 +60,15 @@ class Game extends Container {
   set score (value) {
     this._score = value;
     this.emit('scoreChanged', this._score);
+  }
+
+  get cash () {
+    return this._cash;
+  }
+
+  set cash (value) {
+    this._cash = value;
+    this.emit('cashChanged', this._cash);
   }
 
   get state () {
@@ -88,22 +110,26 @@ class Game extends Container {
   }
 
   layout () {
-    let screen = Core.engine.screen;
+    let screen = core.engine.screen;
 
     // Force portrait view.
     if (this.options.rotateWhenLandscape && screen.width > screen.height) {
       screen = {width: screen.height, height: screen.width};
-      this._world.rotation = -Math.PI / 2;
-      this._world.position.set(0, screen.width);
+      this.rotation = -Math.PI / 2;
+      this.position.set(0, screen.width);
     } else {
-      this._world.rotation = 0;
-      this._world.position.set(0,0);
+      this.rotation = 0;
+      this.position.set(0,0);
     }
 
-    const offset = 80;
 
     const size = util.limitToRatio({width: 700, height: 1400}, 9/16, 9/16, 9/16, 9/16);
     const scale = size.width / screen.width;
+
+    const bottom = (Elevator.bottomForLevel(this._world._levels) + 605) * scale;
+    const offset = Math.max(0, 200 - (screen.height - bottom));
+
+
     const bounds = {
       width: screen.width / scale,
       height: (screen.height + offset) / scale
