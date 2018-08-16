@@ -27,6 +27,18 @@ class Warehouse extends Building {
     this.addChild(roof);
 
     this._addWorker();
+
+    this.on(Building.Events.Unloading, (amount) => {
+      if (amount > 0) {
+        const label = new CashLabel(values.getCash(amount), true);
+        this.addChild(label);
+  
+        const tl = new TimelineLite();
+        tl.set(label, {x: -230, y: -120, alpha: 1});
+        tl.to(label, 2, {y: -200, alpha: 0});
+        tl.play();
+      }
+    });
   }
 
   _addManager () {
