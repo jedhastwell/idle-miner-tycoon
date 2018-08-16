@@ -105,14 +105,14 @@ class World extends Container {
   }
 
   newLevel () {
-    if (this.levelCount < values.maximumMineshafts) {
+    if (this.levelCount < values.maxMineshafts) {
       this.addMineshaft(this.levelCount + 1);
       this.emit('newLevel', this.levelCount);
     }
   }
 
   levelVacancies () {
-    return this.levelCount < values.maximumMineshafts;
+    return this.levelCount < values.maxMineshafts;
   }
 
   newManager () {

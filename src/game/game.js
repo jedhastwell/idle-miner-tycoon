@@ -19,6 +19,9 @@ class Game extends Container {
 
     this.options = util.merge(defaults, options);
 
+    this.score = 0;
+    this.cash = 0;
+
     this.populate();
 
     core.engine.on('resize', this.layout, this);

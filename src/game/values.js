@@ -32,12 +32,17 @@ const values = {
   // Seconds the elevator takes to change size.
   elevatorResizeTime: 0.5,
 
-  mineshaftUnloadTime: 0.4,
+  // Time to unload mineshaft in seconds per amount unit 
+  mineshaftUnloadTime: 0.3,
 
-  refinaryUnloadTime: 0.4,
+  // Time to unload refinary in seconds per amount unit
+  refinaryUnloadTime: 0.3,
+
+  // Maximum number of amount units to consider when calculating unload time
+  unloadTimeMaxAmount: 5,
 
   // Maximum number of mineshafts that can be purchased.
-  maximumMineshafts: 3,
+  maxMineshafts: 3,
 
   // Amount of cash each unit amount is worth.
   cashPerAmount: 50,
@@ -59,11 +64,11 @@ const values = {
   },
 
   getMineUnloadTime: (amount) => {
-    return values.mineshaftUnloadTime * amount;
+    return values.mineshaftUnloadTime * util.limitNum(amount, 0, values.unloadTimeMaxAmount);
   },
 
   getRefinaryUnloadTime: (amount) => {
-    return values.refinaryUnloadTime * amount;
+    return values.refinaryUnloadTime * util.limitNum(amount, 0, values.unloadTimeMaxAmount);
   },
 
   getManagerCost: (managerNum) => {
