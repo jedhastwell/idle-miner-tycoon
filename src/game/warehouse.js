@@ -6,11 +6,17 @@ import values from './values';
 import Pointer from './pointer.js';
 import CashLabel from '../ui/cashLabel';
 
+const defaults = {
+  workerIdleX: -200,
+  workerCollectXOffset: 275
+}
 
 class Warehouse extends Building {
 
   constructor () {
     super();
+
+    this._collectX = - (values.worldSpan - defaults.workerCollectXOffset);
 
     const building = Sprite.fromImage('booth-door.png');
     building.position.set(-building.width, -building.height);
@@ -48,7 +54,7 @@ class Warehouse extends Building {
     const tl = new TimelineLite();
     // Walk to refinery.
     tl.call(worker.play, [], worker);
-    tl.to(worker, values.transportTime, {x: -420, ease: Linear.easeNone});
+    tl.to(worker, values.transportTime, {x: this._collectX, ease: Linear.easeNone});
     // Collect load.
     tl.call(this.emit, [Building.Events.Collecting], this);
     tl.call(worker.stop, [], worker);
@@ -66,7 +72,7 @@ class Warehouse extends Building {
     // Turn around and walk back to warehouse.
     tl.call(worker.flip, [], worker, '+=' + wait / 2);
     tl.call(worker.play, [], worker);
-    tl.to(worker, values.transportTime, {x: -200, ease: Linear.easeNone});
+    tl.to(worker, values.transportTime, {x: defaults.workerIdleX, ease: Linear.easeNone});
     // Drop off load.
     tl.call(worker.stop, [], worker);
     tl.set(worker.load, {visible: false}, '+=' + values.transportPause / 2);

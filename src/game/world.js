@@ -14,8 +14,7 @@ import Building from './building.js';
 
 const defaults = {
   groundPos: 600,
-  warehousePos: 605,
-  span: 700
+  warehousePos: 605
 }
 
 
@@ -28,7 +27,7 @@ class World extends Container {
     this._levels = 0;
     this._mineShafts = [];
 
-    this.area = new Pixi.Rectangle(0,0, defaults.span, 1);
+    this.area = new Pixi.Rectangle(0,0, values.worldSpan, 1);
     this.bounds = bounds || { width: 750, height: 1334 };
 
     this.populate();
@@ -46,7 +45,7 @@ class World extends Container {
 
   set bounds (value) {
     this._viewBounds = value;
-    this.area.x = (this._viewBounds.width - defaults.span) / 2;
+    this.area.x = (this._viewBounds.width - values.worldSpan) / 2;
     this.area.height = this._viewBounds.height;
     this.emit('resize');
   }

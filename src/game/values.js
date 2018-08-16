@@ -2,6 +2,8 @@ import util from '../util/util.js';
 
 const values = {
 
+  worldSpan: 750,
+
   elevatorSpeed: 160,
   groundLevelTop: 54,
   firstLevelTop: 180,
