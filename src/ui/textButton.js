@@ -37,7 +37,11 @@ class TextButton extends Button {
   set disabled(value) {
     super.disabled = value;
     this._textLabel.alpha = value ? 0.7 : 1;
-	}
+  }
+  
+  get disabled () {
+    return super.disabled;
+  }
 
 }
 
