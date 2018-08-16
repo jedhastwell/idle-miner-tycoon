@@ -54,7 +54,7 @@ class Warehouse extends Building {
     const tl = new TimelineLite();
     // Walk to refinery.
     tl.call(worker.play, [], worker);
-    tl.to(worker, values.transportTime, {x: this._collectX, ease: Linear.easeNone});
+    tl.to(worker, values.warehouseWalkTime, {x: this._collectX, ease: Linear.easeNone});
     // Collect load.
     tl.call(this.emit, [Building.Events.Collecting], this);
     tl.call(worker.stop, [], worker);
@@ -64,20 +64,20 @@ class Warehouse extends Building {
 
     super.collect(amount);
 
-    const wait = values.getRefinaryUnloadTime(amount);
+    const wait = values.getRefinaryUnloadTime(amount) / 2;
     const worker = this._worker;
 
     const tl = new TimelineLite();
-    tl.set(worker.load, {visible: (amount > 0)}, '+=' + wait / 2);
+    tl.set(worker.load, {visible: (amount > 0)}, '+=' + wait);
     // Turn around and walk back to warehouse.
-    tl.call(worker.flip, [], worker, '+=' + wait / 2);
+    tl.call(worker.flip, [], worker, '+=' + wait);
     tl.call(worker.play, [], worker);
-    tl.to(worker, values.transportTime, {x: defaults.workerIdleX, ease: Linear.easeNone});
+    tl.to(worker, values.warehouseWalkTime, {x: defaults.workerIdleX, ease: Linear.easeNone});
     // Drop off load.
     tl.call(worker.stop, [], worker);
-    tl.set(worker.load, {visible: false}, '+=' + values.transportPause / 2);
+    tl.set(worker.load, {visible: false}, '+=' + wait);
     tl.call(this.unload, [], this);
-    tl.call(worker.flip, [], worker, '+=' + values.transportPause / 2);
+    tl.call(worker.flip, [], worker, '+=' + wait);
     tl.call(this.idle, [], this);
   }
 

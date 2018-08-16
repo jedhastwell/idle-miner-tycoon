@@ -247,23 +247,21 @@ class World extends Container {
 
     this._elevator.levels = level;
     this._elevator.disabled = false;
-    this._elevator.on('collecting', (onLevel) => {
+    this._elevator.on(Building.Events.Collecting, (onLevel) => {
       if (level == onLevel) {
         shaft.unload();
       }
     });
 
-    shaft.on('unloading', (amount, onLevel) => {
-      this._elevator.collect(amount, onLevel);
-    });
+    shaft.on(Building.Events.Unloading, this._elevator.collect, this._elevator);
+    shaft.on(Building.Events.AmountChanged, this._elevatorIdleCheck, this);
+    shaft.on(Building.Events.Idle, shaft.promptWork, shaft);
 
-    shaft.on('idle', this._elevatorIdleCheck, this);
     shaft.promptWork();
-    shaft.on('idle', shaft.promptWork, shaft);
 
     if (!instant) {
       TweenLite.fromTo(shaft, 0.4, {alpha: 0}, {alpha: 1});
-      const explosion = effects.explosion(this, shaft.x + shaft.width / 2, shaft.y + shaft.height / 2);
+      effects.explosion(this, shaft.x + shaft.width / 2, shaft.y + shaft.height / 2);
     }
 
   }
