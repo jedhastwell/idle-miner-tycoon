@@ -66,25 +66,25 @@ util.limitToRatio = function (size, horzRatio, horzRatioWide, vertRatio, vertRat
 }
 
 
-util.scaledFit = function(size, target) {
+util.scaledFit = function (size, target) {
 
-    let sizeRatio = size.width / size.height;
-    let targetRatio = target.width / target.height;
+  let sizeRatio = size.width / size.height;
+  let targetRatio = target.width / target.height;
 
-    if (sizeRatio > targetRatio) {
-      // Vertical layout.
-      return {
-        width: target.height * sizeRatio,
-        height: target.height
-      }
-    } else {
-      // Horizontal layout.
-      return {
-        width: target.width,
-        height: target.width / sizeRatio
-      }
+  if (sizeRatio > targetRatio) {
+    // Vertical layout.
+    return {
+      width: target.height * sizeRatio,
+      height: target.height
+    }
+  } else {
+    // Horizontal layout.
+    return {
+      width: target.width,
+      height: target.width / sizeRatio
     }
   }
+}
 
 
 

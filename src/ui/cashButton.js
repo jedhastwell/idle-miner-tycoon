@@ -32,14 +32,18 @@ class CashButton extends TextButton {
     this._check();
   }
 
+  shouldDisable () {
+    return false;
+  }
+
   _check () {
-    this.disabled = core.game.cash < this.cost;
+    this.disabled = core.game.cash < this.cost || this.shouldDisable();
+    this._costLabel.children[0].style.fill = core.game.cash < this.cost ? 0xFF0000 : 0xFFFFFF;
   }
 
   set disabled (value) {
     super.disabled = value;
     this._costLabel.alpha = value ? 0.7 : 1;
-    this._costLabel.children[0].style.fill = value ? 0xFF0000 : 0xFFFFFF;
   }
   
   get disabled () {

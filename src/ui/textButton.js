@@ -3,7 +3,7 @@ import Button          from './button.js';
 
 class TextButton extends Button {
 
-  constructor (text = '', cost = 0) {
+  constructor (text = '') {
     super(Texture.fromImage('ui-button.png'), {
       disabledTexture: Texture.fromImage('ui-button-disabled.png')
     });

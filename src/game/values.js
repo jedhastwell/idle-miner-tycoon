@@ -36,11 +36,23 @@ const values = {
 
   refinaryUnloadTime: 0.4,
 
+  // Maximum number of mineshafts that can be purchased.
+  maximumMineshafts: 3,
+
   // Amount of cash each unit amount is worth.
   cashPerAmount: 50,
 
   // Amount of cash required to complete the game.
   targetCash: 1000,
+
+  // Cash multiplier each mineshaft level produces.
+  levelAmounts: [1, 1.5, 2],
+
+  // Cost of each manager.
+  managerCosts: [50, 100],
+
+  // Cost of each mineshaft.
+  mineshaftCosts: [0, 150, 200],
 
   getCash: (value) => {
     return value * values.cashPerAmount;
@@ -54,8 +66,38 @@ const values = {
     return values.refinaryUnloadTime * amount;
   },
 
+  getManagerCost: (managerNum) => {
+    return values.managerCosts[util.limitNum(managerNum - 1, 0, values.managerCosts.length - 1)];
+  },
+
+  getMineshaftCost: (levelNum) => {
+    return values.mineshaftCosts[util.limitNum(levelNum - 1, 0, values.mineshaftCosts.length - 1)];
+  },
+
+  getAmountForLevel: (levelNum) => {
+    return values.levelAmounts[util.limitNum(levelNum - 1, 0, values.levelAmounts.length - 1)];
+  },
+
   set: function (obj) {
     util.extend(this, obj);
+  },
+
+  presets: {
+    speed: {
+      minerWorkTime: 0.3,
+
+      minerWalkTime: 0.4,
+
+      minerRestTime: 0.1,
+
+      elevatorSpeed: 250,
+
+      warehouseWalkTime: 0.6,
+
+      mineshaftUnloadTime: 0.2,
+
+      refinaryUnloadTime: 0.2
+    }
   }
 }
 

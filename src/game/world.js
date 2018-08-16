@@ -24,8 +24,8 @@ class World extends Container {
 
     super();
 
-    this._levels = 0;
     this._mineShafts = [];
+    this._managerCount = 0;
 
     this.area = new Pixi.Rectangle(0,0, values.worldSpan, 1);
     this.bounds = bounds || { width: 750, height: 1334 };
@@ -52,6 +52,14 @@ class World extends Container {
 
   get mineShafts () {
     return this._mineShafts;
+  }
+
+  get levelCount () {
+    return this._mineShafts.length;
+  }
+
+  get managerCount () {
+    return this._managerCount;
   }
 
   populate () {
@@ -97,18 +105,21 @@ class World extends Container {
   }
 
   newLevel () {
-    this._levels++;
-    if (this._levels <= 3) {
-      this.addMineshaft(this._levels);
-      this.emit('newLevel', this._levels);
+    if (this.levelCount < values.maximumMineshafts) {
+      this.addMineshaft(this.levelCount + 1);
+      this.emit('newLevel', this.levelCount);
     }
-    return this._levels < 3;
+  }
+
+  levelVacancies () {
+    return this.levelCount < values.maximumMineshafts;
   }
 
   newManager () {
     for (const shaft of this._mineShafts) {
       if (!shaft.hasManager) {
         shaft.addManager();
+        this._managerCount++;
         return;
       }
     }
@@ -117,12 +128,22 @@ class World extends Container {
       this._elevator.addManager();
       this._refinery.addManager();
       this._elevatorIdleCheck();
+      this._managerCount++;
       return;
     }
 
     if (!this._warehouse.hasManager) {
       this._warehouse.addManager();
+      this._managerCount++;
     }
+  }
+
+  managerVacancies () {
+    const vacancy = this._mineShafts.reduce((accumulator, shaft) => {
+      return accumulator || !shaft.hasManager;
+    }, false);
+    
+    return vacancy || !this._warehouse.hasManager || !this._elevator.hasManager;
   }
 
   addSky () {

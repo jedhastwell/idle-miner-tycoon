@@ -6,6 +6,7 @@ import TimelineLite from 'TimelineLite';
 import values from './values';
 import CashLabel from '../ui/cashLabel.js';
 import Pointer from './pointer.js';
+import util from '../util/util';
 
 const defaults = {
   tunnelLength: 2,
@@ -116,7 +117,7 @@ class Mineshaft extends Building {
     tl.to(worker, values.minerWorkTime, {x: defaults.minerIdleX, ease: Linear.easeNone});
 
     tl.call(Anims.set, [worker, Anims.minerIdle, true], this);
-    tl.call(this.collect, [this._type.amount], this);
+    tl.call(this.collect, [values.getAmountForLevel(this._level)], this);
     tl.call(this.idle, [], this, '+=' + values.minerRestTime);
     
     worker.interactive = true;
@@ -136,20 +137,17 @@ Mineshaft.Types = {
   Gold: {
     tunnelImage: 'shaft-tunnel-1.png',
     wallImage: 'shaft-gold-wall-1.png',
-    earthImage: 'shaft-gold-earth.png',
-    amount: 1
+    earthImage: 'shaft-gold-earth.png'
   },
   Amethyst: {
     tunnelImage: 'shaft-tunnel-1.png',
     wallImage: 'shaft-amethyst-wall-1.png',
-    earthImage: 'shaft-amethyst-earth.png',
-    amount: 1.5
+    earthImage: 'shaft-amethyst-earth.png'
   },
   Jade: {
     tunnelImage: 'shaft-tunnel-2.png',
     wallImage: 'shaft-jade-wall-2.png',
-    earthImage: 'shaft-jade-earth.png',
-    amount: 2
+    earthImage: 'shaft-jade-earth.png'
   }
 }
 
@@ -159,7 +157,7 @@ Mineshaft.typeForLevel = (level) => {
     Mineshaft.Types.Amethyst,
     Mineshaft.Types.Jade
   ];
-  return levels[level - 1];
+  return levels[util.limitNum(level - 1, 0, levels.length - 1)];
 }
 
 export default Mineshaft
