@@ -106,7 +106,7 @@ class Warehouse extends Building {
     worker.addChild(load);
 
     worker.interactive = true;
-    worker.on('pointertap', this.work, this);
+    worker.on('pointertap', this.click, this);
 
     const label = this.addAmountLabel(worker, -35, -35, true);
 

@@ -1,6 +1,7 @@
 import {Container} from 'pixi.js';
 import CashLabel from '../ui/cashLabel';
 import values from './values';
+import core from '../core';
 
 class Building extends Container {
 
@@ -76,6 +77,15 @@ class Building extends Container {
 
       this._working = true;
       this._work();
+    }
+  }
+
+  click (e) {
+    if (core.game.allowInteraction() || !e) {
+      if (e) {
+        PlayableKit.analytics.gameInteracted();
+      }
+      this.work();
     }
   }
 

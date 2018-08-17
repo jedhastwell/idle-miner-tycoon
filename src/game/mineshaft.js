@@ -121,7 +121,7 @@ class Mineshaft extends Building {
     tl.call(this.idle, [], this, '+=' + values.minerRestTime);
     
     worker.interactive = true;
-    worker.on('pointertap', this.work, this);
+    worker.on('pointertap', this.click, this);
   }
 
   _addCrate () {

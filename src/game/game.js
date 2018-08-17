@@ -110,7 +110,7 @@ class Game extends Container {
       PlayableKit.analytics.outro();
       this._ui.levelCompleteSequence().then(() => {
         this.state = Game.State.Over;
-      })
+      });
     }
 
     if (value == Game.State.Over) {
@@ -118,6 +118,10 @@ class Game extends Container {
       this.emit('complete');
     }
 
+  }
+
+  allowInteraction () {
+    return this.state == Game.State.Playing;
   }
 
   update (elapsed) {
@@ -128,7 +132,6 @@ class Game extends Container {
       }
     }
     
-
   }
 
   layout () {

@@ -89,17 +89,27 @@ class UI extends Container {
       return !this._world.levelVacancies();
     }
 
-    shaftBtn.on('pressed', () => {
+    shaftBtn.on('pressed', (btn, automated) => {
+      if (!automated) {
+        PlayableKit.analytics.gameInteracted();
+      }
+      
       this._world.newLevel();
       managerBtn._check();
       shaftBtn.cost = values.getMineshaftCost(this._world.levelCount + 1);
+
     }, this._world);
+
     this.addChild(shaftBtn);
     
 
     const managerBtn = this._managerBtn = new CashButton ('Manager', values.getManagerCost(1));
 
-    managerBtn.on('pressed', () => {
+    managerBtn.on('pressed', (btn, automated) => {
+      if (!automated) {
+        PlayableKit.analytics.gameInteracted();
+      }
+      
       this._world.newManager()
       managerBtn.cost = values.getManagerCost(this._world.managerCount + 1);
     });

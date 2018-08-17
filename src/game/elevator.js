@@ -143,7 +143,7 @@ class Elevator extends Building {
     this.addAmountLabel(cab, 0, 8);
 
     cab.interactive = true;
-    cab.on('pointertap', this.work, this);
+    cab.on('pointertap', this.click, this);
 
   }
 

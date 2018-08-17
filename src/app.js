@@ -18,6 +18,7 @@ class Application {
 
     game.on('complete', () => {
       end.show(1.5);
+      PlayableKit.analytics.end();
     });
 
   }
