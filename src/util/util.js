@@ -86,6 +86,25 @@ util.scaledFit = function (size, target) {
   }
 }
 
+// Returns an new size that matches the aspect ratio of size that fits inside of target
+util.resizeToFit = function (size, target) {
+
+  let sizeRatio = size.width / size.height;
+  let targetRatio = target.width / target.height;
+
+  if (sizeRatio > targetRatio) {
+    return {
+      width: target.width,
+      height: target.width / sizeRatio
+    }
+  } else {
+    return {
+      width: target.height * sizeRatio,
+      height: target.height
+    }
+  }
+}
+
 
 
 util.throttle = (fn, timespan, delay) => {

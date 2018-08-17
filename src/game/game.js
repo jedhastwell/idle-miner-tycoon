@@ -6,6 +6,7 @@ import World          from './world.js';
 import UI from '../ui/ui.js';
 import Elevator from './elevator.js';
 import values from './values.js';
+import { TweenLite } from 'gsap';
 
 const defaults = {};
 
@@ -38,7 +39,7 @@ class Game extends Container {
 
     this.populate();
 
-    core.engine.on('resize', this.layout, this);
+    core.engine.on('resize', () => {this.layout()}, this);
 
     this.state = Game.State.Intro;
 
@@ -65,9 +66,7 @@ class Game extends Container {
 
     this.layout();
 
-    this._world.on('newLevel', (level) => {
-      this.layout();
-    });
+    this._world.on('newLevel', () => {this.layout(true)}, this);
 
     core.engine.on('tick', this.update, this);
   }
@@ -144,7 +143,7 @@ class Game extends Container {
     
   }
 
-  layout () {
+  layout (animate) {
     let screen = core.engine.screen;
 
     // Force portrait view.
@@ -157,22 +156,36 @@ class Game extends Container {
       this.position.set(0,0);
     }
 
+    // Create a static rectangle that should fit most of what we want to see.
+    const world = {width: values.worldSpan, height: values.worldSpan * 1.9};
 
-    const size = util.limitToRatio({width: 700, height: 1400}, 9/16, 9/16, 9/16, 9/16);
+    // Resize that rectangle so it fits into the screen.
+    const size = util.resizeToFit(world, {
+      width: Math.min(screen.width, screen.height), 
+      height: Math.max(screen.width, screen.height)
+    });
     const scale = size.width / screen.width;
 
-    const bottom = (Elevator.bottomForLevel(this._world._levels) + 605) * scale;
-    const offset = Math.max(0, 200 - (screen.height - bottom));
+    const bottom = 605 + Elevator.bottomForLevel(this._world.levelCount) + (170 / scale);
 
+    let offset = 0;
+    if (bottom * scale > screen.height) {
+      offset = (bottom * scale) - (screen.height);
+    }
 
     const bounds = {
       width: screen.width / scale,
-      height: (screen.height + offset) / scale
+      height: (screen.height / scale) + offset / scale
     };
 
     this._world.bounds = bounds;
     this._world.scale.set(scale);
-    this._world.y = -offset;
+
+    if (animate) {
+      TweenLite.to(this._world, 0.3, {y: -offset});
+    } else {
+      this._world.y = -offset;
+    }
 
   }
 
