@@ -1,10 +1,8 @@
-import * as Pixi from 'pixi.js';
-import {Sprite, Texture, Container} from 'pixi.js';
+import {Sprite} from 'pixi.js';
 import Building from './building';
 import core  from '../core.js';
 import Anims from './animations.js';
 import values from './values';
-import CashLabel from '../ui/cashLabel.js';
 
 
 class Refinery extends Building {

@@ -41,6 +41,13 @@ class Warehouse extends Building {
     });
   }
 
+  reset () {
+    this._worker.position.set(defaults.workerIdleX, 0);
+    this._worker.scale.x = 1;
+    this._worker.load.visible = false;
+    super.reset();
+  }
+
   _addManager () {
     const manager = Anims.make(Anims.managerSrWorking);
     manager.anchor.set(0.5, 1);
@@ -96,7 +103,7 @@ class Warehouse extends Building {
   _addWorker () {
     const worker = this._worker = Anims.make(Anims.transporter);
     worker.anchor.set(0.7, 0.93);
-    worker.position.set(-200, 0);
+    worker.position.set(defaults.workerIdleX, 0);
     this.addChild(worker);
 
     const load = worker.load = Sprite.fromImage('cart-load-1.png');

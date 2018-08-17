@@ -15,6 +15,22 @@ class Building extends Container {
 
   }
 
+  reset () {
+    if (this._manager && this._manager.destroy) {
+      this._manager.destroy();
+    }
+    this._manager = null;
+
+    if (this._pointer) {
+      this._pointer.destroy();
+      this._pointer = null;
+    }
+    
+    this.amount = 0;
+
+    this._working = false;
+  }
+
   get amount () {
     return this._amount;
   }

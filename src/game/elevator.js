@@ -36,7 +36,14 @@ class Elevator extends Building {
     this._disabled = value;
   }
 
-  
+  reset () {
+    this._moveToLevel(0);
+    this._levels = 1;
+    this._disabled = true;
+    this._resize(true);
+    super.reset();
+  }
+
   _addManager () {
     return true;
   }

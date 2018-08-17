@@ -34,8 +34,16 @@ class EndScreen extends Screen {
 
     const replayButton = this.element.querySelector('.js-button-replay');
     replayButton.onclick = () => {
-      
+      if (this._onReplay) {
+        // Hack
+        replayButton.onclick = null;
+        this._onReplay();
+      }
     }
+  }
+
+  onReplay (callback) {
+    this._onReplay = callback;
   }
 
 }

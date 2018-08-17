@@ -39,6 +39,17 @@ class World extends Container {
 
   }
 
+  reset () {
+    for (const shaft of this._mineShafts) {
+      shaft.destroy();
+    }
+    this._mineShafts = [];
+    this._managerCount = 0;
+    this._elevator.reset();
+    this._refinery.reset();
+    this._warehouse.reset();
+  }
+
   get bounds () {
     return this._viewBounds;
   }
@@ -76,9 +87,7 @@ class World extends Container {
 
   linkComponentEvents () {
     this._warehouse.on('collecting', this._refinery.unload, this._refinery);
-    this._refinery.on('unloading', (amount) => {
-      this._warehouse.collect(amount);
-    });
+    this._refinery.on('unloading', this._warehouse.collect, this._warehouse);
     this._elevator.on('unloading', (amount) => {
       this._refinery.collect(amount);
       this._warehouseIdleCheck();
@@ -262,21 +271,28 @@ class World extends Container {
       );
       shaft.span = this.bounds.width - shaft.x;
     };
-
     layout();
-    this.on('resize', layout);
 
-    this._elevator.levels = level;
-    this._elevator.disabled = false;
-    this._elevator.on(Building.Events.Collecting, (onLevel) => {
+    const elevatorCollect = (onLevel) => {
       if (level == onLevel) {
         shaft.unload();
       }
-    });
+    };
+    
 
+    this._elevator.levels = level;
+    this._elevator.disabled = false;
+    this._elevator.on(Building.Events.Collecting, elevatorCollect, this); 
+
+    this.on('resize', layout);
     shaft.on(Building.Events.Unloading, this._elevator.collect, this._elevator);
     shaft.on(Building.Events.AmountChanged, this._elevatorIdleCheck, this);
     shaft.on(Building.Events.Idle, shaft.promptWork, shaft);
+
+    shaft.on('destroy', () => {
+      this._elevator.off(Building.Events.Collecting, elevatorCollect, this);
+      this.off('resize', layout);
+    })
 
     shaft.promptWork();
 

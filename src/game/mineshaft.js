@@ -4,7 +4,6 @@ import Building from './building';
 import Anims from './animations.js';
 import TimelineLite from 'TimelineLite';
 import values from './values';
-import CashLabel from '../ui/cashLabel.js';
 import Pointer from './pointer.js';
 import util from '../util/util';
 
@@ -33,6 +32,11 @@ class Mineshaft extends Building {
   set span (value) {
     this._span = value;
     this.emit('resize');
+  }
+
+  destroy () {
+    this.emit('destroy');
+    super.destroy({children: true});
   }
 
   _work () {

@@ -21,6 +21,11 @@ class Application {
       PlayableKit.analytics.end();
     });
 
+    end.onReplay(() => {
+      end.hide(1);
+      game.restart();
+    });
+
   }
 
   start () {

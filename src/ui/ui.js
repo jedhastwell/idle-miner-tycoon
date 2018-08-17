@@ -59,7 +59,6 @@ class UI extends Container {
       });
     }
 
-    // this._totalCashLabel.flash(3);
     const seq = new TimelineLite();
     seq.call(this._totalCashLabel.flash, [3], this._totalCashLabel);
     seq.call(() => {
@@ -115,9 +114,17 @@ class UI extends Container {
       layout();
       core.engine.on('resize', layout, this);
 
+      const clickShaftBtn = () => {
+        this._shaftBtn.emit('pressed', this._shaftBtn, false);
+      }
+
+      this._dimmer.interactive = true;
+      this._dimmer.on('pointertap', clickShaftBtn, this);
+
       this._world.once('newLevel', () => {
         show.kill();
         core.engine.off('resize', layout, this);
+        this._dimmer.off('pointertap', clickShaftBtn, this);
         this._dimmer.interactive = false;
 
         const hide = new TimelineLite();
@@ -128,12 +135,13 @@ class UI extends Container {
         hide.call(container.destroy, [{children: true}], container, '+=0.5');
       }, this);
 
-      this._dimmer.interactive = true;
-      this._dimmer.once('pointertap', () => {
-        this._shaftBtn.emit('pressed', this._shaftBtn, false);
-      }, this);
 
     });
+  }
+
+  reset () {
+    this._shaftBtn.cost = values.getMineshaftCost(this._world.levelCount + 1);
+    this._managerBtn.cost = values.getManagerCost(this._world.managerCount + 1);
   }
 
   _populate () {

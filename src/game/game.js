@@ -40,13 +40,18 @@ class Game extends Container {
 
     core.engine.on('resize', this.layout, this);
 
-    this.restart();
+    this.state = Game.State.Intro;
 
   }
 
   restart() {
     this.score = 0;
     this.cash = 0;
+
+    this._world.reset();
+    this._ui.reset();
+    this.layout();
+
     this.state = Game.State.Intro;
   }
 
@@ -60,13 +65,11 @@ class Game extends Container {
 
     this.layout();
 
-
     this._world.on('newLevel', (level) => {
       this.layout();
     });
 
     core.engine.on('tick', this.update, this);
-
   }
 
   get score () {
