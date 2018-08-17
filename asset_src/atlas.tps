@@ -425,6 +425,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/intro-guy-1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>79,146,158,291</rect>
+                <key>scale9Paddings</key>
+                <rect>79,146,158,291</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/manager-ex-work-4.png</key>
             <key type="filename">atlas/manager-ex-work-5.png</key>
             <key type="filename">atlas/manager-ex-work-6.png</key>
@@ -598,6 +611,19 @@
                 <rect>3,125,5,250</rect>
                 <key>scale9Paddings</key>
                 <rect>3,125,5,250</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">atlas/speech-bubble.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>77,45,153,91</rect>
+                <key>scale9Paddings</key>
+                <rect>77,45,153,91</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
