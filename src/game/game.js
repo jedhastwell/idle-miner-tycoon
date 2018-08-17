@@ -17,14 +17,18 @@ class Game extends Container {
 
     core.game = this;
 
+    const valuesOverride = {};
+
     if ('gameOverText' in options) {
-      values.set({
-        gameOverText: options.gameOverText
-      });
+      valuesOverride.gameOverText = options.gameOverText
+    }
+
+    if ('introText' in options) {
+      valuesOverride.introText = options.introText
     }
 
     values.set(values.presets.speed);
-    
+    values.set(valuesOverride);   
     
     
     this.options = util.merge(defaults, options);

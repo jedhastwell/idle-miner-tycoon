@@ -62,6 +62,9 @@ const values = {
   // Text to display when the game over sequence runs.
   gameOverText: 'LEVEL COMPLETE',
 
+  // Text to display in the speach bubble in the intro.
+  introText: 'Tap to start your mine!',
+
   getCash: (value) => {
     return value * values.cashPerAmount;
   },

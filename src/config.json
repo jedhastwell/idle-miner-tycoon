@@ -27,6 +27,13 @@
           "default": "LEVEL COMPLETE",
           "title": "Game Over Text",
           "description": "Text to display when the game completes"
+        },
+
+        "introText": {
+          "type": "string",
+          "default": "Tap to start your mine!",
+          "title": "Intro Text",
+          "description": "Text to display in the speach bubble in the intro"
         }
 
       }

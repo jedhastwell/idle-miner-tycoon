@@ -89,7 +89,7 @@ class UI extends Container {
       bubble.alpha = 0;
       container.addChild(bubble);
 
-      const label = new Text("Tap to start mining!", {
+      const label = new Text(values.introText, {
         fontFamily : 'LeageSpartan',
         fontSize: 30,
         fill : 0xFFFFFF,
