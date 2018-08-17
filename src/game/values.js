@@ -6,7 +6,7 @@ const values = {
   worldSpan: 750,
 
   // Pixels per second the elevator moves at.
-  elevatorSpeed: 160,
+  elevatorSpeed: 260,
   
   // Pixels down from the surface for the top of 'ground level' (elevator idle position)
   groundLevelTop: 54,
@@ -23,9 +23,9 @@ const values = {
   // Seconds the mineshaft worker digs for
   minerWorkTime: 1,
   // Seconds the mineshaft worker takes to walk back and forwards
-  minerWalkTime: 1.5,
+  minerWalkTime: 1.2,
   // Seconds the miner rests for after working
-  minerRestTime: 0.6,
+  minerRestTime: 0.8,
 
   // Number of units required to display the full load sprite.
   elevatorFullLoadAmount: 4.5,
@@ -33,7 +33,7 @@ const values = {
   elevatorResizeTime: 0.5,
 
   // Time to unload mineshaft in seconds per amount unit 
-  mineshaftUnloadTime: 0.3,
+  mineshaftUnloadTime: 0.2,
 
   // Time to unload refinary in seconds per amount unit
   refinaryUnloadTime: 0.3,
@@ -48,16 +48,16 @@ const values = {
   cashPerAmount: 50,
 
   // Amount of cash required to complete the game.
-  targetCash: 1000,
+  targetCash: 500,
 
   // Cash multiplier each mineshaft level produces.
   levelAmounts: [1, 1.5, 2],
 
   // Cost of each manager.
-  managerCosts: [50, 100],
+  managerCosts: [50, 75],
 
   // Cost of each mineshaft.
-  mineshaftCosts: [0, 150, 200],
+  mineshaftCosts: [0, 50, 75],
 
   // Text to display when the game over sequence runs.
   gameOverText: 'LEVEL COMPLETE',
@@ -94,16 +94,16 @@ const values = {
   },
 
   presets: {
-    speed: {
-      minerWorkTime: 0.3,
+    fast: {
+      minerWorkTime: 0.6,
 
-      minerWalkTime: 0.4,
+      minerWalkTime: 0.5,
 
-      minerRestTime: 0.1,
+      minerRestTime: 0.2,
 
-      elevatorSpeed: 250,
+      elevatorSpeed: 280,
 
-      warehouseWalkTime: 0.6,
+      warehouseWalkTime: 0.8,
 
       mineshaftUnloadTime: 0.2,
 

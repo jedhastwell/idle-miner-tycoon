@@ -27,8 +27,8 @@ class Game extends Container {
       valuesOverride.introText = options.introText
     }
 
-    values.set(values.presets.speed);
-    values.set(valuesOverride);   
+    values.set(values.presets.fast);
+    values.set(valuesOverride);
     
     
     this.options = util.merge(defaults, options);
