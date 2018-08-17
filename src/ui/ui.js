@@ -1,4 +1,4 @@
-import { Container, Text } from "pixi.js";
+import { Container, Text, Sprite, Graphics } from "pixi.js";
 import TextButton from "./textButton";
 import CashButton from "./cashButton";
 import core from "../core";
@@ -7,6 +7,9 @@ import TotalCashLabel from "./totalCashLabel";
 import values from "../game/values";
 import effects from "../game/effects";
 import TimelineLite from 'TimelineLite';
+import TweenLite from 'TweenLite';
+import pixiUtil from '../util/pixiUtil';
+
 
 class UI extends Container {
 
@@ -61,13 +64,86 @@ class UI extends Container {
     seq.call(this._totalCashLabel.flash, [3], this._totalCashLabel);
     seq.call(() => {
       effects.coinRain(this, 0, -50, screen.width);
+      this.showDimmer();
     }, [], this, '+=0.8');
     seq.call(showEndText, [], this);
 
     return core.engine.wait(2.5);    
   }
 
+  introSequence () {
+    return new Promise((resolve, reject) => {
+
+      const container = new Container();
+      this.addChild(container);
+
+      const char = Sprite.fromImage('intro-guy-1.png');
+      char.anchor.set(0, 1);
+      char.x = - (char.width + 10);
+      container.addChild(char);
+
+      const bubble = Sprite.fromImage('speech-bubble.png');
+      bubble.anchor.set(0, 0.75);
+      bubble.position.set(char.width - 60, - char.height + 250);
+      bubble.scale.set(0.1);
+      bubble.alpha = 0;
+      container.addChild(bubble);
+
+      const label = new Text("Tap to start mining!", {
+        fontFamily : 'LeageSpartan',
+        fontSize: 30,
+        fill : 0xFFFFFF,
+        stroke: 0x000000,
+        strokeThickness: 6,
+        align: 'center',
+        wordWrap: true,
+        wordWrapWidth: bubble.texture.width * 0.7
+      });
+      label.position.set (170, -50);
+      label.anchor.set (0.5, 0.5);
+      bubble.addChild(label);
+
+      this.showDimmer(true);
+      const show = new TimelineLite();
+      show.to(char, 0.2, {x: -30, ease: Quad.easeIn}, '+=0.5');
+      show.set(bubble, {alpha: 1}, '+=0.25');
+      show.to(bubble.scale, 0.2, {x: 1, y: 1, ease: Quad.easeInOut});
+    
+      const layout = () => {
+        container.position.set(0, core.engine.screen.height);
+      }
+      layout();
+      core.engine.on('resize', layout, this);
+
+      this._world.once('newLevel', () => {
+        show.kill();
+        core.engine.off('resize', layout, this);
+        this._dimmer.interactive = false;
+
+        const hide = new TimelineLite();
+        hide.call(resolve, [], this);
+        hide.to(bubble, 0.15, {alpha: 0});
+        hide.to(char, 0.2, {x: -char.width - 10, ease: Quad.easeOut}, '-=0.1');
+        hide.call(this.hideDimmer, [], this, '-=0.15');
+        hide.call(container.destroy, [{children: true}], container, '+=0.5');
+      }, this);
+
+      this._dimmer.interactive = true;
+      this._dimmer.once('pointertap', () => {
+        this._shaftBtn.emit('pressed', this._shaftBtn, false);
+      }, this);
+
+    });
+  }
+
   _populate () {
+    this._dimmer = new Graphics();
+    this._dimmer.beginFill(0x000000);
+    this._dimmer.drawRect(0, 0, 10, 10);
+    this._dimmer.alpha = 0;
+    this._dimmer.visible = false;
+    this.addChild(this._dimmer);
+
     this._addButtons();
     this._addTotalCashLabel();
   }
@@ -79,7 +155,22 @@ class UI extends Container {
     core.game.on('cashChanged', (cash) => {
       this._totalCashLabel.text = '' + cash + (values.targetCash >= 0 ? ' / ' + values.targetCash : '');
     })
+  }
 
+  showDimmer (immediately) {
+    this._dimmer.visible = true;
+    if (immediately) {
+      this._dimmer.alpha = 0.4;
+    } else {
+      this._dimmer.alpha = 0;
+      TweenLite.to(this._dimmer, 0.5, {alpha: 0.4});
+    }
+  }
+
+  hideDimmer () {
+    const tl = new TimelineLite();
+    tl.to(this._dimmer, 0.2, {alpha: 0});
+    tl.set(this._dimmer, {visible: false});
   }
 
   _addButtons () {
@@ -93,12 +184,13 @@ class UI extends Container {
       if (!automated) {
         PlayableKit.analytics.gameInteracted();
       }
-      
       this._world.newLevel();
+    }, this._world);
+
+    this._world.on('newLevel', () => {
       managerBtn._check();
       shaftBtn.cost = values.getMineshaftCost(this._world.levelCount + 1);
-
-    }, this._world);
+    })
 
     this.addChild(shaftBtn);
     
@@ -148,6 +240,9 @@ class UI extends Container {
 
     this._totalCashLabel.x = size.width * 0.5 - this._totalCashLabel.width * 0.5;
     this._totalCashLabel.y = 20;
+
+    this._dimmer.width = core.engine.screen.width;
+    this._dimmer.height = core.engine.screen.height;
   }
 
 }

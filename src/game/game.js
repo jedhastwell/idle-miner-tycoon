@@ -43,7 +43,7 @@ class Game extends Container {
   restart() {
     this.score = 0;
     this.cash = 0;
-    this.state = Game.State.Playing;
+    this.state = Game.State.Intro;
   }
 
   populate () {
@@ -93,6 +93,9 @@ class Game extends Container {
     if (value == Game.State.Intro) {
       // Intro starting
       PlayableKit.analytics.intro();
+      this._ui.introSequence().then(() => {
+        this.state = Game.State.Playing;
+      });
     }
 
     if (value == Game.State.Tutorial) {
