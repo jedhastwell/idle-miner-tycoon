@@ -20,6 +20,13 @@
           "default": false,
           "title": "Rotate when landscape",
           "description": "Causes the game to rotate the view when in landscape orientation"
+        },
+
+        "gameOverText": {
+          "type": "string",
+          "default": "LEVEL COMPLETE",
+          "title": "Game Over Text",
+          "description": "Text to display when the game completes"
         }
 
       }

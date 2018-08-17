@@ -17,8 +17,16 @@ class Game extends Container {
 
     core.game = this;
 
-    values.set(values.presets.speed);
+    if ('gameOverText' in options) {
+      values.set({
+        gameOverText: options.gameOverText
+      });
+    }
 
+    values.set(values.presets.speed);
+    
+    
+    
     this.options = util.merge(defaults, options);
 
     this.score = 0;

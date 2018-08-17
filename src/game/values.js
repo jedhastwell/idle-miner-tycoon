@@ -59,6 +59,9 @@ const values = {
   // Cost of each mineshaft.
   mineshaftCosts: [0, 150, 200],
 
+  // Text to display when the game over sequence runs.
+  gameOverText: 'LEVEL COMPLETE',
+
   getCash: (value) => {
     return value * values.cashPerAmount;
   },

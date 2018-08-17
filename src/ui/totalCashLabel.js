@@ -1,4 +1,6 @@
 import {Sprite, Texture, Text} from 'pixi.js';
+import TimelineLite from 'TimelineLite';
+import core from '../core';
 
 class TotalCashLabel extends Sprite {
 
@@ -25,6 +27,18 @@ class TotalCashLabel extends Sprite {
 
   set text (value) {
     this._label.text = value;
+  }
+
+  flash (duration = 1) {
+    const tl = new TimelineLite();
+    tl.to(this._label, 0.08, {alpha: 0});
+    tl.to(this._label, 0.08, {alpha: 1}, '+=0.08');
+    tl.call(tl.play, [0], tl, '+=0.15');
+
+    core.engine.wait(duration).then(() => {
+      tl.kill();
+      this._label.alpha = 1;
+    });
   }
 
 }

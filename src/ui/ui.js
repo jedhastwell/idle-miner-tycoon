@@ -1,4 +1,4 @@
-import { Container } from "pixi.js";
+import { Container, Text } from "pixi.js";
 import TextButton from "./textButton";
 import CashButton from "./cashButton";
 import core from "../core";
@@ -6,6 +6,7 @@ import Pointer from "../game/pointer";
 import TotalCashLabel from "./totalCashLabel";
 import values from "../game/values";
 import effects from "../game/effects";
+import TimelineLite from 'TimelineLite';
 
 class UI extends Container {
 
@@ -22,9 +23,48 @@ class UI extends Container {
   }
 
   levelCompleteSequence () {
-    effects.coinRain(this, 0, -50, core.engine.screen.width);
+    const screen = core.engine.screen;
 
-    return core.engine.wait(2);    
+    const showEndText = () => {
+      const words = values.gameOverText.split(" ");
+      const h = 95;
+  
+      words.map((word, i) => {
+        const label = new Text(word, {
+          fontFamily : 'LeageSpartan',
+          fontSize: 80,
+          fill : 0xEA9A02,
+          stroke: 0xF7EC00,
+          strokeThickness: 10,
+          align: 'center'
+        });
+  
+        label.anchor.set(0.5, 0.5);
+        label.x = (screen.width * 0.5) + (screen.width * ((i % 2 == 0) ? -1 : 1));
+        label.y = (screen.height *0.47) - (words.length * h / 2) + (i * h);
+  
+        const tl = new TimelineLite();
+        tl.to(label, 0.45, {x: screen.width / 2, ease: Circ.easeIn});
+        tl.to(label.scale, 0.3, {x: 10, y: 10, ease: Quad.easeIn}, '+=1');
+        tl.to(label, 0.15, {alpha: 0}, '-=0.15');
+        tl.call(() => {
+          label.destroy();
+          tl.kill();
+        });
+  
+        this.addChild(label);
+      });
+    }
+
+    // this._totalCashLabel.flash(3);
+    const seq = new TimelineLite();
+    seq.call(this._totalCashLabel.flash, [3], this._totalCashLabel);
+    seq.call(() => {
+      effects.coinRain(this, 0, -50, screen.width);
+    }, [], this, '+=0.8');
+    seq.call(showEndText, [], this);
+
+    return core.engine.wait(2.5);    
   }
 
   _populate () {
