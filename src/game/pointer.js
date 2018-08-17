@@ -32,18 +32,6 @@ class Pointer extends Container {
     super.destroy({children: true});
   }
 
-  follow (object) {
-    const offset = {x: object.x - this.x, y: object.y - this.y};
-    const reposition = () => {
-      this.x = object.x + offset.x;
-      this.y = object.y + offset.y;
-    };
-    core.engine.on('resize', reposition, this);
-    this.once('destroyed', () => {
-      core.engine.off('resize', reposition)
-    }, this);
-  }
-
 }
 
 export default Pointer
