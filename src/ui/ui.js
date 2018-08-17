@@ -163,6 +163,7 @@ class UI extends Container {
     core.game.on('cashChanged', (cash) => {
       this._totalCashLabel.text = '' + cash + (values.targetCash >= 0 ? ' / ' + values.targetCash : '');
     })
+    core.game.emit('cashChanged', core.game.cash);
   }
 
   showDimmer (immediately) {

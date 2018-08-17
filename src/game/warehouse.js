@@ -43,8 +43,15 @@ class Warehouse extends Building {
 
   reset () {
     this._worker.position.set(defaults.workerIdleX, 0);
-    this._worker.scale.x = 1;
+    if (this._worker.scale.x == -1) {
+      this._worker.flip();
+    }
     this._worker.load.visible = false;
+    if (this._worker.tl) {
+      this._worker.tl.kill();
+      this._worker.tl = null;
+    }
+    this._worker.stop();
     super.reset();
   }
 
@@ -70,13 +77,13 @@ class Warehouse extends Building {
   _work () {
     const worker = this._worker;
 
-    const tl = new TimelineLite();
+    const tl = worker.tl = new TimelineLite();
     // Walk to refinery.
     tl.call(worker.play, [], worker);
     tl.to(worker, values.warehouseWalkTime, {x: this._collectX, ease: Linear.easeNone});
     // Collect load.
-    tl.call(this.emit, [Building.Events.Collecting], this);
     tl.call(worker.stop, [], worker);
+    tl.call(this.emit, [Building.Events.Collecting], this);    
   }
 
   collect (amount) {
@@ -86,7 +93,7 @@ class Warehouse extends Building {
     const wait = values.getRefinaryUnloadTime(amount) / 2;
     const worker = this._worker;
 
-    const tl = new TimelineLite();
+    const tl = worker.tl = new TimelineLite();
     tl.set(worker.load, {visible: (amount > 0)}, '+=' + wait);
     // Turn around and walk back to warehouse.
     tl.call(worker.flip, [], worker, '+=' + wait);
