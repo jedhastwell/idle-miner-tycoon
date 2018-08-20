@@ -18,6 +18,8 @@ class UI extends Container {
     
     this._world = world;
 
+    this._disabled = false;
+
     this._populate();
 
     core.engine.on('resize', this._layout, this);
@@ -139,7 +141,18 @@ class UI extends Container {
     });
   }
 
+  get disabled () {
+    return this._disabled;
+  }
+
+  set disabled (value) {
+    this._disabled = value;
+    this._shaftBtn._check();
+    this._managerBtn._check();
+  }
+
   reset () {
+    this._disabled = false;
     this._shaftBtn.cost = values.getMineshaftCost(this._world.levelCount + 1);
     this._managerBtn.cost = values.getManagerCost(this._world.managerCount + 1);
   }
@@ -186,7 +199,7 @@ class UI extends Container {
     const shaftBtn = this._shaftBtn = new CashButton ('New Shaft' , values.getMineshaftCost(1));
 
     shaftBtn.shouldDisable = () => {
-      return !this._world.levelVacancies();
+      return !this._world.levelVacancies() || this._disabled;
     }
 
     shaftBtn.on('pressed', (btn, automated) => {
@@ -200,6 +213,8 @@ class UI extends Container {
       managerBtn._check();
       shaftBtn.cost = values.getMineshaftCost(this._world.levelCount + 1);
     })
+
+    core.game.on()
 
     this.addChild(shaftBtn);
     
@@ -216,7 +231,7 @@ class UI extends Container {
     });
 
     managerBtn.shouldDisable = () => {
-      return !this._world.managerVacancies();
+      return !this._world.managerVacancies() || this._disabled;
     }
 
     this.addChild(managerBtn);

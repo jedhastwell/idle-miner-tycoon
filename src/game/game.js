@@ -122,6 +122,7 @@ class Game extends Container {
     if (value == Game.State.Outro) {
       // Outro starting.
       PlayableKit.analytics.outro();
+      this._ui.disabled = true;
       this._ui.levelCompleteSequence().then(() => {
         this.state = Game.State.Over;
       });
@@ -135,7 +136,7 @@ class Game extends Container {
   }
 
   allowInteraction () {
-    return this.state == Game.State.Playing;
+    return this.state == Game.State.Intro || this.state == Game.State.Playing;
   }
 
   update (elapsed) {
