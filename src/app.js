@@ -28,12 +28,13 @@ class Application {
       game.restart();
     });
 
+    this.start = () => {
+      game.start();
+    }
+  
   }
 
-  start () {
-
-  }
-
+  
 }
 
 Application.load = loadAssets;

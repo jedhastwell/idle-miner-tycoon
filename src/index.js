@@ -74,10 +74,11 @@ PlayableKit.onViewable(function (options) {
   onViewable has triggered.
  */
 PlayableKit.onStart(function (options) {
-
-  new Application(options);
+  const app = new Application(options);
 
   // Hide laoding screen if it was visible.
-  loadScreen.hide();
+  loadScreen.hide(() => {
+    app.start();
+  });
 
 })
