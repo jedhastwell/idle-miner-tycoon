@@ -26,8 +26,8 @@ class LoadScreen extends Screen {
 
   progressTo (percentage) {
     this._percentage = Math.min(Math.max(0, percentage || 0), 100);
-    if (this._element) {
-      const el = this._element.querySelector('.js-progress');
+    if (this.element) {
+      const el = this.element.querySelector('.js-progress');
       if (el) {
         el.style.width = `${this._percentage}%`;
       }
