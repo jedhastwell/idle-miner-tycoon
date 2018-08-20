@@ -22,14 +22,21 @@ class Game extends Container {
     const valuesOverride = {};
 
     if ('gameOverText' in options) {
-      valuesOverride.gameOverText = options.gameOverText
+      valuesOverride.gameOverText = options.gameOverText;
     }
 
     if ('introText' in options) {
-      valuesOverride.introText = options.introText
+      valuesOverride.introText = options.introText;
     }
 
-    values.set(values.presets.fast);
+    if ('targetCash' in options) {
+      valuesOverride.targetCash = options.targetCash;
+    }
+
+    if (options.fastMode === true) {
+      values.set(values.presets.fast);
+    };
+
     values.set(valuesOverride);
     
     
