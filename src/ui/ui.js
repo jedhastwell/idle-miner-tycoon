@@ -196,7 +196,7 @@ class UI extends Container {
   }
 
   _addButtons () {
-    const shaftBtn = this._shaftBtn = new CashButton ('New Shaft' , values.getMineshaftCost(1));
+    const shaftBtn = this._shaftBtn = new CashButton (values.newShaftText , values.getMineshaftCost(1));
 
     shaftBtn.shouldDisable = () => {
       return !this._world.levelVacancies() || this._disabled;
@@ -219,7 +219,7 @@ class UI extends Container {
     this.addChild(shaftBtn);
     
 
-    const managerBtn = this._managerBtn = new CashButton ('Manager', values.getManagerCost(1));
+    const managerBtn = this._managerBtn = new CashButton (values.newManagerText, values.getManagerCost(1));
 
     managerBtn.on('pressed', (btn, automated) => {
       if (!automated) {

@@ -65,6 +65,12 @@ const values = {
   // Text to display in the speach bubble in the intro.
   introText: 'Tap to start your mine!',
 
+  // Text to display on the new mineshaft button.
+  newShaftText: 'New Shaft',
+
+  // Text to display on the new manager button.
+  newManagerText: 'Manager',
+
   getCash: (value) => {
     return value * values.cashPerAmount;
   },
