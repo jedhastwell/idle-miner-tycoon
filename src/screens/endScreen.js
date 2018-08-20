@@ -8,7 +8,8 @@ const defaults = {
   fadeOutTime: 0.5,
   minDisplayTime: 1,
   ctaButtonText: 'Install Now',
-  replayButtonText: 'Try Again'
+  replayButtonText: 'Try Again',
+  maxPlays: -1
 }
 
 class EndScreen extends Screen {
@@ -27,19 +28,28 @@ class EndScreen extends Screen {
   show (fadeTime, parentNode = document.body) {
     super.show(fadeTime, parentNode);
 
+    EndScreen.plays = (EndScreen.plays || 0) + 1;
+
     const ctaButton = this.element.querySelector('.js-button-cta');
     ctaButton.onclick = () => {
       PlayableKit.open();
     }
 
     const replayButton = this.element.querySelector('.js-button-replay');
-    replayButton.onclick = () => {
-      if (this._onReplay) {
-        // Hack
-        replayButton.onclick = null;
-        this._onReplay();
+
+    if (this.options.maxPlays <= 0 || EndScreen.plays < this.options.maxPlays) {
+      replayButton.onclick = () => {
+        if (this._onReplay) {
+          // Hack
+          replayButton.onclick = null;
+          this._onReplay();
+        }
       }
+    } else {
+      replayButton.style.display = 'none';
     }
+
+
   }
 
   onReplay (callback) {

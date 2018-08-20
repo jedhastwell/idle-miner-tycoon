@@ -96,6 +96,13 @@
             "default": "Replay",
             "title": "Replay Button Text",
             "description": "Text to display on the replay button"
+          },
+
+          "maxPlays": {
+            "type": "number",
+            "default": -1,
+            "title": "Max Plays",
+            "description": "Maximum number of games that can be played"
           }
 
       }
