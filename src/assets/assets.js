@@ -4,8 +4,12 @@ export default function () {
 
   return {
     images : [
+      require('./images/logo.png'),
+      require('./images/menu-bg.jpg'),
+      require('./images/ui-button.png')
     ],
     textures: {
+      'sky.png': require('./images/sky.png')
     },
     sheets: {
       'atlas': {

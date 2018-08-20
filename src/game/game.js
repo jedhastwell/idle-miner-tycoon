@@ -7,6 +7,7 @@ import UI from '../ui/ui.js';
 import Elevator from './elevator.js';
 import values from './values.js';
 import { TweenLite } from 'gsap';
+import Pointer from './pointer.js';
 
 const defaults = {};
 
@@ -41,8 +42,12 @@ class Game extends Container {
 
     core.engine.on('resize', () => {this.layout()}, this);
 
-    this.state = Game.State.Intro;
+    this.state = null;
 
+  }
+
+  start () {
+    this.state = Game.State.Intro;
   }
 
   restart() {
@@ -135,7 +140,10 @@ class Game extends Container {
 
   update (elapsed) {
 
+    Pointer.pool.update(elapsed);
+
     if (this.state == Game.State.Playing) {
+      
       if (this.cash >= values.targetCash) {
         this.state = Game.State.Outro;
       }

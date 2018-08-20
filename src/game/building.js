@@ -2,6 +2,7 @@ import {Container} from 'pixi.js';
 import CashLabel from '../ui/cashLabel';
 import values from './values';
 import core from '../core';
+import Pointer from './pointer';
 
 class Building extends Container {
 
@@ -22,7 +23,7 @@ class Building extends Container {
     this._manager = null;
 
     if (this._pointer) {
-      this._pointer.destroy();
+      Pointer.pool.release(this._pointer);
       this._pointer = null;
     }
     
@@ -87,7 +88,7 @@ class Building extends Container {
     if (!this._working) {
 
       if (this._pointer) {
-        this._pointer.destroy();
+        Pointer.pool.release(this._pointer);
         this._pointer = null;
       }
 
@@ -119,12 +120,11 @@ class Building extends Container {
     this.amount = 0;
   }
 
-  _addManager () { throw "Call to abstract method. Override required." }
+  _addManager () { throw "Call to abstract method '_addManager'. Override required." }
 
-  _addPointer () { throw "Call to abstract method. Override required." }
+  _addPointer () { throw "Call to abstract method '_addPointer'. Override required." }
 
-  _work () { throw "Call to abstract method. Override required." }
-  
+  _work () { throw "Call to abstract method '_work'. Override required." }
 
 }
 

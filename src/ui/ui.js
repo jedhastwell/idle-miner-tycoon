@@ -1,5 +1,5 @@
 import { Container, Text, Sprite, Graphics } from "pixi.js";
-import TextButton from "./textButton";
+import Button from "./button";
 import CashButton from "./cashButton";
 import core from "../core";
 import Pointer from "../game/pointer";
@@ -102,7 +102,7 @@ class UI extends Container {
       label.anchor.set (0.5, 0.5);
       bubble.addChild(label);
 
-      this.showDimmer(true);
+      this.showDimmer();
       const show = new TimelineLite();
       show.to(char, 0.2, {x: -30, ease: Quad.easeIn}, '+=0.5');
       show.set(bubble, {alpha: 1}, '+=0.25');
@@ -221,25 +221,38 @@ class UI extends Container {
 
     this.addChild(managerBtn);
 
-    this._attachPointer(shaftBtn);
-    this._attachPointer(managerBtn);
+    this._attachPointer(shaftBtn, 3);
+    this._attachPointer(managerBtn, 4);  
+
+    
   }
 
 
-  _attachPointer (button) {
-    const pointer = new Pointer();
-    pointer.position.set(button.width / 2, 0);
-    button.addChild(pointer);
-
-    pointer.visible = !button.disabled;
+  _attachPointer (button, weight) {
+    
+    if (!button.disabled && !button.pointer) {
+      button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (automated) => {button.emit('pressed', button, automated)});
+    }
 
     button.on('stateChanged', (e) => {
-      pointer.visible = !button.disabled;
+
+      if (e.oldState == Button.State.DISABLED) {
+        if (!button.pointer) {
+          button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (automated) => {button.emit('pressed', button, automated)});
+        }
+      }
+
+      if (e.newState == Button.State.DISABLED) {
+        if (button.pointer) {
+          Pointer.pool.release(button.pointer);
+          button.pointer = null;
+        }
+      }
     });
   }
 
   _layout () {
-    const size = core.engine.screen;
+    let size = core.engine.screen;
 
     this._shaftBtn.x = size.width * 0.7 - (this._shaftBtn.width * 0.5);
     this._shaftBtn.y = size.height - 40 - (this._shaftBtn.getBounds().bottom - this._shaftBtn.y);
@@ -250,8 +263,8 @@ class UI extends Container {
     this._totalCashLabel.x = size.width * 0.5 - this._totalCashLabel.width * 0.5;
     this._totalCashLabel.y = 20;
 
-    this._dimmer.width = core.engine.screen.width;
-    this._dimmer.height = core.engine.screen.height;
+    this._dimmer.width = size.width;
+    this._dimmer.height = size.height;
   }
 
 }
