@@ -17,7 +17,8 @@ const defaults = {
     wide  : 8/3,
     short : 3/4,
     tall  : 3/8
-  }
+  },
+  forceOrientation: null
 }
 
 class Engine extends EventEmitter {
@@ -34,7 +35,7 @@ class Engine extends EventEmitter {
 
     super();
 
-    this.options = defaults;
+    this.options = util.merge(defaults, options);
 
     // Create new PIXI instance.
     this._pixi = new PIXI.Application(this.options.pixi);
@@ -92,6 +93,21 @@ class Engine extends EventEmitter {
       letterboxed.width / scaled.width / this._pixi.renderer.resolution,
       letterboxed.height / scaled.height  / this._pixi.renderer.resolution
     );
+
+    
+    // Check if we should rotate the stage to force a particular orientation.
+    const force = this.options.forceOrientation;
+    const rotate = (force == 'portrait' && scaled.width > scaled.height) 
+      || (force == 'landscape'&& scaled.width < scaled.height);
+    
+    if (rotate) {
+      this._screen = {width: this._screen.height, height: this._screen.width};
+      this.stage.rotation = -Math.PI / 2;
+      this.stage.position.set(0, this._screen.width);
+    } else {
+      this.stage.rotation = 0;
+      this.stage.position.set(0,0);
+    }
 
     // Emit resize event.
     this.emit('resize', this.screen, this.scale);

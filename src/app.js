@@ -9,7 +9,9 @@ class Application {
 
   constructor (options) {
 
-    const engine = Core.engine = new Engine();
+    const engine = Core.engine = new Engine({
+      forceOrientation: options.game.rotateWhenLandscape ? 'portrait' : null
+    });
 
     const game = new Game(options.game);
     const end = new EndScreen(options.endScreen);

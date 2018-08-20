@@ -154,16 +154,6 @@ class Game extends Container {
   layout (animate) {
     let screen = core.engine.screen;
 
-    // Force portrait view.
-    if (this.options.rotateWhenLandscape && screen.width > screen.height) {
-      screen = {width: screen.height, height: screen.width};
-      this.rotation = -Math.PI / 2;
-      this.position.set(0, screen.width);
-    } else {
-      this.rotation = 0;
-      this.position.set(0,0);
-    }
-
     // Create a static rectangle that should fit most of what we want to see.
     const world = {width: values.worldSpan, height: values.worldSpan * 1.9};
 
