@@ -347,22 +347,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">atlas/elevator-level-1.png</key>
-            <key type="filename">atlas/elevator-level-2.png</key>
-            <key type="filename">atlas/elevator-level-3.png</key>
-            <key type="filename">atlas/elevator-level.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>21,21,42,42</rect>
-                <key>scale9Paddings</key>
-                <rect>21,21,42,42</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">atlas/elevator-load-amethyst-1.png</key>
             <key type="filename">atlas/elevator-load-amethyst-2.png</key>
             <key type="filename">atlas/elevator-load-amethyst-3.png</key>
@@ -655,7 +639,6 @@
                 <false/>
             </struct>
             <key type="filename">atlas/ui-button-disabled.png</key>
-            <key type="filename">atlas/ui-button.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

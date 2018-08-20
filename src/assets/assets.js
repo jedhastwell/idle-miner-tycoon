@@ -9,7 +9,8 @@ export default function () {
       require('./images/ui-button.png')
     ],
     textures: {
-      'sky.png': require('./images/sky.png')
+      'sky.png': require('./images/sky.png'),
+      'ui-button.png': require('./images/ui-button.png')
     },
     sheets: {
       'atlas': {
