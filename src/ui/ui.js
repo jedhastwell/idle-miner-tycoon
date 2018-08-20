@@ -255,10 +255,10 @@ class UI extends Container {
     let size = core.engine.screen;
 
     this._shaftBtn.x = size.width * 0.7 - (this._shaftBtn.width * 0.5);
-    this._shaftBtn.y = size.height - 40 - (this._shaftBtn.getBounds().bottom - this._shaftBtn.y);
+    this._shaftBtn.y = size.height - 40 - this._shaftBtn.sprite.height;
 
     this._managerBtn.x = size.width * 0.3 - (this._managerBtn.width * 0.5);
-    this._managerBtn.y = size.height - 40 - (this._managerBtn.getBounds().bottom - this._managerBtn.y);
+    this._managerBtn.y = size.height - 40 -  this._managerBtn.sprite.height;
 
     this._totalCashLabel.x = size.width * 0.5 - this._totalCashLabel.width * 0.5;
     this._totalCashLabel.y = 20;
