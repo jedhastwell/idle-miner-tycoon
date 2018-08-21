@@ -62,7 +62,6 @@ class Building extends Container {
   addManager () {
     if (!this.hasManager) {
       this._manager = this._addManager();
-      console.assert(this.hasManager, "Failed to add manager");
       this.promptWork();
     }
   }
@@ -78,7 +77,6 @@ class Building extends Container {
       } else {
         if (!this._pointer) {
           this._pointer = this._addPointer();
-          console.assert(!!this._pointer, "Failed to add pointer");
         }
       }
     }
