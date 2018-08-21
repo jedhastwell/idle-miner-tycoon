@@ -58,6 +58,8 @@ class LoadScreen extends Screen {
       setTimeout(() => {
         super.hide(this.options.fadeOutTime, callback);
       }, delay * 1000);
+    } else {
+      callback();
     }
 
   }
