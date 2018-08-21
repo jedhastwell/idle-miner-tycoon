@@ -6,7 +6,7 @@ import World          from './world.js';
 import UI from '../ui/ui.js';
 import Elevator from './elevator.js';
 import values from './values.js';
-import { TweenLite } from 'gsap';
+import TweenLite from 'TweenLite';
 import Pointer from './pointer.js';
 
 const defaults = {};

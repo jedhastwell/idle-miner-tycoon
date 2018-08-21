@@ -6,7 +6,7 @@ import Elevator  from './elevator.js';
 import Clouds    from './clouds.js';
 import Mineshaft from './mineshaft.js';
 import effects   from './effects.js';
-import { TweenLite } from 'gsap';
+import TweenLite from 'TweenLite';
 import TextButton from '../ui/textButton.js';
 import core from '../core.js';
 import values from './values.js';
