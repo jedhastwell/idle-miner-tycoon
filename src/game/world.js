@@ -125,14 +125,19 @@ class World extends Container {
   }
 
   newManager () {
-    for (const shaft of this._mineShafts) {
-      if (!shaft.hasManager) {
-        shaft.addManager();
+
+    const addForShaft = (index) => {
+      if (this._mineShafts[index] && !this._mineShafts[index].hasManager) {
+        this._mineShafts[index].addManager();
         this._managerCount++;
-        return;
+        return true;
       }
     }
 
+    if (addForShaft(0)) {
+      return;
+    }
+   
     if (!this._elevator.hasManager) {
       this._elevator.addManager();
       this._refinery.addManager();
@@ -141,10 +146,22 @@ class World extends Container {
       return;
     }
 
+    if (addForShaft(1)) {
+      return;
+    }
+
     if (!this._warehouse.hasManager) {
       this._warehouse.addManager();
       this._managerCount++;
+      return;
     }
+
+    for (let i = 2; i < this._mineShafts.length; i++) {
+      if (addForShaft(i)) {
+        return;
+      }
+    }
+
   }
 
   managerVacancies () {
