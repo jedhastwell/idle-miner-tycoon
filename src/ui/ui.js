@@ -8,6 +8,7 @@ import values from "../game/values";
 import effects from "../game/effects";
 import TimelineLite from 'TimelineLite';
 import TweenLite from 'TweenLite';
+import {Circ} from 'Easing';
 import pixiUtil from '../util/pixiUtil';
 
 
