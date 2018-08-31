@@ -44,7 +44,7 @@ class Engine extends EventEmitter {
     document.body.appendChild(this._pixi.view);
 
     // Adjust size to match window.
-    this.layout(PlayableKit.getScreenSize());
+    this.layout(this.getScreenSize());
 
     // Update layout when the window is resized.
     // Adding delay because safari on mobile does not report window dimensions correctly during resize.
@@ -60,6 +60,22 @@ class Engine extends EventEmitter {
     Engine._instance = this;
   }
 
+  getScreenSize () {
+    // MRAID reports incorrect size on iPhone X. The browser dimensions are fine though.
+    // TODO: this should be fixed in PlayableKit, after which this can be removed.
+
+    let size = PlayableKit.getScreenSize();
+    
+    if (window.innerWidth && size.width > window.innerWidth) {
+      size.width = window.innerWidth;
+    }
+
+    if (window.innerHeight && size.height > window.innerHeight) {
+      size.height = window.innerHeight;
+    }
+
+    return size;
+  }
 
   layout (size) {
     // Get the size we are fitting into.
@@ -157,7 +173,7 @@ class Engine extends EventEmitter {
     if (value !== this._pixi.stage) {
       this._pixi.stage = value;
       // Need to re-layout so that stage is scaled correctly.
-      this.layout(PlayableKit.getScreenSize());
+      this.layout(this.getScreenSize());
       // Render immediately.
       this._pixi.render();
     }
