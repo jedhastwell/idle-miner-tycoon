@@ -34,7 +34,7 @@
 .button {
   width: 32vmax;
   height: 10vmax;
-  background: url('../assets/images/ui-button.png') no-repeat;
+  background: url('../assets/images/menu-button.png') no-repeat;
   background-size: 100% 100%;
   display: flex;
   align-items: center;

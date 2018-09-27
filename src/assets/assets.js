@@ -6,11 +6,10 @@ export default function () {
     images : [
       require('./images/logo.png'),
       require('./images/menu-bg.jpg'),
-      require('./images/ui-button.png')
+      require('./images/menu-button.png')
     ],
     textures: {
-      'sky.png': require('./images/sky.png'),
-      'ui-button.png': require('./images/ui-button.png')
+      'sky.png': require('./images/sky.png')
     },
     sheets: {
       'atlas': {
