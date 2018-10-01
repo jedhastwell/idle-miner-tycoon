@@ -44,7 +44,7 @@ class Engine extends EventEmitter {
     document.body.appendChild(this._pixi.view);
 
     // Adjust size to match window.
-    this.layout(this.getScreenSize());
+    this.layout(PlayableKit.getScreenSize());
 
     // Update layout when the window is resized.
     // Adding delay because safari on mobile does not report window dimensions correctly during resize.
@@ -58,23 +58,6 @@ class Engine extends EventEmitter {
     TweenLite.ticker.addEventListener('tick', this.loop, this);
 
     Engine._instance = this;
-  }
-
-  getScreenSize () {
-    // MRAID reports incorrect size on iPhone X. The browser dimensions are fine though.
-    // TODO: this should be fixed in PlayableKit, after which this can be removed.
-
-    let size = PlayableKit.getScreenSize();
-    
-    if (window.innerWidth && size.width > window.innerWidth) {
-      size.width = window.innerWidth;
-    }
-
-    if (window.innerHeight && size.height > window.innerHeight) {
-      size.height = window.innerHeight;
-    }
-
-    return size;
   }
 
   layout (size) {
@@ -173,7 +156,7 @@ class Engine extends EventEmitter {
     if (value !== this._pixi.stage) {
       this._pixi.stage = value;
       // Need to re-layout so that stage is scaled correctly.
-      this.layout(this.getScreenSize());
+      this.layout(PlayableKit.getScreenSize());
       // Render immediately.
       this._pixi.render();
     }
