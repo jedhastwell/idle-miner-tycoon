@@ -66,7 +66,7 @@ class Warehouse extends Building {
   }
 
   _addPointer () {
-    return Pointer.pool.make(this, this._worker.x - this._worker.width * 0.25, this._worker.y - this._worker.height, 2, ()=>{this.click()});
+    return Pointer.pool.make(this, this._worker.x - this._worker.width * 0.25, this._worker.y - this._worker.height, 2, this.click.bind(this));
   }
 
 

@@ -105,7 +105,7 @@ class Button extends Container {
 	onUp(e) {
 		if(this.state === Button.State.ACTIVE) {
 			this.state = Button.State.STATIC;
-			this.emit('pressed', this);
+			this.emit('pressed', this, e);
 		}
 	}
 

@@ -117,8 +117,8 @@ class UI extends Container {
       layout();
       core.engine.on('resize', layout, this);
 
-      const clickShaftBtn = () => {
-        this._shaftBtn.emit('pressed', this._shaftBtn, false);
+      const clickShaftBtn = (e) => {
+        this._shaftBtn.emit('pressed', this._shaftBtn, e);
       }
 
       this._dimmer.interactive = true;
@@ -203,8 +203,8 @@ class UI extends Container {
       return !this._world.levelVacancies() || this._disabled;
     }
 
-    shaftBtn.on('pressed', (btn, automated) => {
-      if (!automated) {
+    shaftBtn.on('pressed', (btn, clickEvent) => {
+      if (clickEvent) {
         PlayableKit.analytics.gameInteracted();
       }
       this._world.newLevel();
@@ -222,8 +222,8 @@ class UI extends Container {
 
     const managerBtn = this._managerBtn = new CashButton (values.newManagerText, values.getManagerCost(1));
 
-    managerBtn.on('pressed', (btn, automated) => {
-      if (!automated) {
+    managerBtn.on('pressed', (btn, clickEvent) => {
+      if (clickEvent) {
         PlayableKit.analytics.gameInteracted();
       }
       
@@ -247,14 +247,14 @@ class UI extends Container {
   _attachPointer (button, weight) {
     
     if (!button.disabled && !button.pointer) {
-      button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (automated) => {button.emit('pressed', button, automated)});
+      button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (e) => {button.emit('pressed', button, e)});
     }
 
     button.on('stateChanged', (e) => {
 
       if (e.oldState == Button.State.DISABLED) {
         if (!button.pointer) {
-          button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (automated) => {button.emit('pressed', button, automated)});
+          button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (e) => {button.emit('pressed', button, e)});
         }
       }
 

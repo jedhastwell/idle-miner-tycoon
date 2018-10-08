@@ -99,7 +99,7 @@ class PointerPool {
         if (pointer.autoClickTimeout <= 0) {
 
           pointer.showClick().then(() => {
-            pointer.clickAction(true);
+            pointer.clickAction();
           });
 
         }
@@ -124,7 +124,7 @@ class PointerPool {
       if (pointer && util.is.fnc(pointer.clickAction)) {
         this._sequence.splice(0,1);
         pointer.showClick().then(() => {
-          pointer.clickAction(true);
+          pointer.clickAction();
         });
         
       }
@@ -158,6 +158,14 @@ class Pointer extends Container {
     tl.to(arrow, 0.8, {y: -defaults.movementRange, width: arrow.texture.width, ease: Quint.Out});
     tl.call(tl.play, [0], tl, '+=0.3');
     this.once('destroyed', tl.kill, tl);
+
+    this.interactive = true;
+    this.on('pointertap', (e) => {
+      if (this.clickAction) {
+        this.clickAction(e);
+      }
+    }, this);
+
   }
 
   destroy () {

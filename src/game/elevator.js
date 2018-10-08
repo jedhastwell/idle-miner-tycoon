@@ -99,7 +99,7 @@ class Elevator extends Building {
   }
 
   _addPointer () {
-    return Pointer.pool.make(this._worker.parent, this._worker.x, this._worker.y - this._worker.height, 1, ()=>{this.click()});
+    return Pointer.pool.make(this._worker.parent, this._worker.x, this._worker.y - this._worker.height, 1, this.click.bind(this));
   }
 
   _populate () {
