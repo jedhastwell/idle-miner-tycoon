@@ -36,11 +36,13 @@
           "description": "Text to display in the speach bubble in the intro"
         },
 
-        "fastMode": {
-          "type": "boolean",
-          "default": true,
-          "title": "Fast Mode",
-          "description": "Game characters move faster when enabled"
+        "speed": {
+          "type": "number",
+          "default": 2,
+          "title": "Speed",
+          "description": "Speed preset to use. 1 (slowest) to 3 (fastest)",
+          "minimum": 1,
+          "maximum": 3
         },
 
         "targetCash": {

@@ -117,6 +117,24 @@ const values = {
       mineshaftUnloadTime: 0.2,
 
       refinaryUnloadTime: 0.2
+    },
+
+    superFast: {
+      minerWorkTime: 0.4,
+
+      minerWalkTime: 0.3,
+
+      minerRestTime: 0.1,
+
+      elevatorSpeed: 450,
+
+      warehouseWalkTime: 0.6,
+
+      mineshaftUnloadTime: 0.3,
+
+      refinaryUnloadTime: 0.2,
+
+      unloadTimeMaxAmount: 1,
     }
   }
 }

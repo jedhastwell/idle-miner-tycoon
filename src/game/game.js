@@ -37,8 +37,12 @@ class Game extends Container {
       valuesOverride.idleTimeoutToEnd = options.idleTimeout;
     }
 
-    if (options.fastMode === true) {
+    if (options.speed === 2) {
       values.set(values.presets.fast);
+    };
+
+    if (options.speed === 3) {
+      values.set(values.presets.superFast);
     };
 
     values.set(valuesOverride);
