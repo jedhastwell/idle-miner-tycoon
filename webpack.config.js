@@ -5,7 +5,6 @@ const webpack           = require('webpack');
 const path              = require('path');
 const pkg               = require('./package.json');
 const ver2              = `${pkg.version.split('.')[0]}.${pkg.version.split('.')[1]}`;
-const TINYPNG_KEY       = '6amPuF6Alzl0qh4KQ7gJTxnYW0XEEP5e';
 
 
 module.exports = (env, argv) => {
@@ -60,10 +59,7 @@ module.exports = (env, argv) => {
           test: /\.(png|jpe?g)$/,
           use: [
             {
-              loader: 'tinify-loader',
-              options: {
-                apikey: TINYPNG_KEY
-              }
+              loader: 'tinify-loader'
             }
           ]
         },
