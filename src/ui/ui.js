@@ -205,7 +205,7 @@ class UI extends Container {
 
     shaftBtn.on('pressed', (btn, clickEvent) => {
       if (clickEvent) {
-        PlayableKit.analytics.gameInteracted();
+        core.game.interact();
       }
       this._world.newLevel();
     }, this._world);
@@ -224,7 +224,7 @@ class UI extends Container {
 
     managerBtn.on('pressed', (btn, clickEvent) => {
       if (clickEvent) {
-        PlayableKit.analytics.gameInteracted();
+        core.game.interact();
       }
       
       this._world.newManager()

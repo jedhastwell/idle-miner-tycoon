@@ -98,7 +98,7 @@ class Building extends Container {
   click (e) {
     if (core.game.allowInteraction() || !e) {
       if (e) {
-        PlayableKit.analytics.gameInteracted();
+        core.game.interact();
       }
       this.work();
     }

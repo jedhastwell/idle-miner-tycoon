@@ -146,6 +146,10 @@ class Game extends Container {
     return this.state == Game.State.Intro || this.state == Game.State.Playing;
   }
 
+  interact () {
+    PlayableKit.analytics.gameInteracted();
+  }
+
   update (elapsed) {
 
     Pointer.pool.update(elapsed);
