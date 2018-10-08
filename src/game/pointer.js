@@ -1,4 +1,4 @@
-import {Container, Sprite, Texture} from 'pixi.js';
+import {Container, Sprite, Texture, Rectangle, Circle} from 'pixi.js';
 import TimelineLite        from 'TimelineLite';
 import util from '../util/util';
 import core from '../core';
@@ -165,6 +165,8 @@ class Pointer extends Container {
         this.clickAction(e);
       }
     }, this);
+
+    this.hitArea = new Circle(0, 0, arrow.width);
 
   }
 
