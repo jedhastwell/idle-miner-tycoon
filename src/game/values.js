@@ -71,6 +71,9 @@ const values = {
   // Text to display on the new manager button.
   newManagerText: 'Manager',
 
+  // Number of seconds of user idle time to wait before jumping to the end screen.
+  idleTimeoutToEnd: null,
+
   getCash: (value) => {
     return value * values.cashPerAmount;
   },

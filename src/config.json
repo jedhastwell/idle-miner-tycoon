@@ -48,6 +48,13 @@
           "default": 500,
           "title": "Target Cash",
           "description": "Amount of cash the player needs to collect to complete the game"
+        },
+
+        "idleTimeout": {
+          "type": "number",
+          "default": 0,
+          "title": "Idle Timeout",
+          "description": "Number of seconds of user idle time to wait before jumping to the end screen. Set to 0 to disable."
         }
 
       }

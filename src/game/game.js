@@ -33,6 +33,10 @@ class Game extends Container {
       valuesOverride.targetCash = options.targetCash;
     }
 
+    if ('idleTimeout' in options) {
+      valuesOverride.idleTimeoutToEnd = options.idleTimeout;
+    }
+
     if (options.fastMode === true) {
       values.set(values.presets.fast);
     };
@@ -44,6 +48,8 @@ class Game extends Container {
 
     this.score = 0;
     this.cash = 0;
+
+    this._idleTime = 0;
 
     this.populate();
 
@@ -60,6 +66,8 @@ class Game extends Container {
   restart() {
     this.score = 0;
     this.cash = 0;
+
+    this._idleTime = 0;
 
     this._world.reset();
     this._ui.reset();
@@ -131,13 +139,19 @@ class Game extends Container {
       PlayableKit.analytics.outro();
       this._ui.disabled = true;
       this._ui.levelCompleteSequence().then(() => {
-        this.state = Game.State.Over;
+        if (this.state == Game.State.Outro) {
+          this.state = Game.State.Over;
+        }
       });
     }
 
     if (value == Game.State.Over) {
       PlayableKit.analytics.gameOver(true, this.score);
-      this.emit('complete');
+      this.emit('complete', false);
+    }
+
+    if (value == Game.State.Timeout) {
+      this.emit('complete', true);
     }
 
   }
@@ -148,17 +162,28 @@ class Game extends Container {
 
   interact () {
     PlayableKit.analytics.gameInteracted();
+    this._idleTime = 0;
   }
 
   update (elapsed) {
 
     Pointer.pool.update(elapsed);
 
+    this._idleTime += elapsed;
+
     if (this.state == Game.State.Playing) {
       
       if (this.cash >= values.targetCash) {
         this.state = Game.State.Outro;
       }
+    }
+
+    if (this.state < Game.State.Outro) {
+      
+      if (values.idleTimeoutToEnd && this._idleTime > values.idleTimeoutToEnd) {
+        this.state = Game.State.Timeout;
+      }
+
     }
     
   }
@@ -206,7 +231,8 @@ Game.State = {
   Tutorial: 1,
   Playing: 2,
   Outro: 3,
-  Over: 4
+  Over: 4,
+  Timeout: 5
 }
 
 

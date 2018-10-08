@@ -18,9 +18,13 @@ class Application {
 
     engine.stage.addChild(game);
 
-    game.on('complete', () => {
+    game.on('complete', (timeout) => {
       end.show(1.5);
-      PlayableKit.analytics.end();
+      if (timeout) {
+        PlayableKit.analytics.view('end_timeout');
+      } else {
+        PlayableKit.analytics.end();
+      }
     });
 
     end.onReplay(() => {
