@@ -2,6 +2,7 @@ import {Container, Sprite, Texture, Rectangle, Circle} from 'pixi.js';
 import TimelineLite        from 'TimelineLite';
 import util from '../util/util';
 import core from '../core';
+import values from './values';
 
 const defaults = {
   movementRange: 50
@@ -14,11 +15,9 @@ class PointerPool {
     this._active = [];
 
     this.autoClickSequence = [
-      {weight: 3, timeout: 7.5},
-      {weight: 0, timeout: 5.5},
-      {weight: 1, timeout: 5.5},
-      {weight: 2, timeout: 5.5}
-      // Show end screen after another 5 seconds
+      {weight: 0},
+      {weight: 1},
+      {weight: 2}
     ];
   }
 
@@ -83,7 +82,7 @@ class PointerPool {
 
 
     if (this.autoClickSequence.length && this.autoClickSequence[0].weight == weight) {
-      pointer.autoClickTimeout = this.autoClickSequence[0].timeout;
+      pointer.autoClickTimeout = values.autoClickTimeout;
       this.autoClickSequence.splice(0, 1);
     }
     

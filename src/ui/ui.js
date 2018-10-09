@@ -110,6 +110,7 @@ class UI extends Container {
       show.to(char, 0.2, {x: -30, ease: Quad.easeIn}, '+=0.5');
       show.set(bubble, {alpha: 1}, '+=0.25');
       show.to(bubble.scale, 0.2, {x: 1, y: 1, ease: Quad.easeInOut});
+      show.call(this._attachButtonPointers.bind(this));
     
       const layout = () => {
         container.position.set(0, core.engine.screen.height);
@@ -126,6 +127,7 @@ class UI extends Container {
 
       this._world.once('newLevel', () => {
         show.kill();
+        this._attachButtonPointers();
         core.engine.off('resize', layout, this);
         this._dimmer.off('pointertap', clickShaftBtn, this);
         this._dimmer.interactive = false;
@@ -243,17 +245,22 @@ class UI extends Container {
     }
 
     this.addChild(managerBtn);
-
-    this._attachPointer(shaftBtn, 3);
-    this._attachPointer(managerBtn, 4);  
     
   }
 
+  _attachButtonPointers () {
+    if (!this._pointersAttached) {
+      this._pointersAttached = true;
+      this._attachPointer(this._shaftBtn, 3);
+      this._attachPointer(this._managerBtn, 4);
+    }
+  }
 
   _attachPointer (button, weight) {
     
     if (!button.disabled && !button.pointer) {
       button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (e) => {button.emit('pressed', button, e)});
+      button.pointer.autoClickTimeout = values.autoClickTimeout;
     }
 
     button.on('stateChanged', (e) => {

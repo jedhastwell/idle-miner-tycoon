@@ -91,6 +91,9 @@ const values = {
   // Number of seconds of user idle time to wait before jumping to the end screen.
   idleTimeout: null,
 
+  // Number of seconds to wait before auto-clicking the next clickable element.
+  autoClickTimeout: 4,
+
   getCash: (value) => {
     return value * values.cashPerAmount;
   },

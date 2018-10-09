@@ -59,6 +59,13 @@
           "description": "Number of seconds of user idle time to wait before jumping to the end screen. Set to 0 to disable."
         },
 
+        "autoClickTimeout": {
+          "type": "number",
+          "default": 4,
+          "title": "Auto-Click Timeout",
+          "description": "Number of seconds to wait before auto-clicking the next clickable element."
+        },
+
         "inGameCta": {
           "type": "boolean",
           "default": true,
