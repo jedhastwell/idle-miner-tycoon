@@ -3,17 +3,19 @@ import Engine         from './engine/engine.js';
 import loadAssets     from './assets/load.js';
 import Game           from './game/game.js';
 import EndScreen      from './screens/endScreen.js';
-
+import values         from './game/values.js';
 
 class Application {
 
   constructor (options) {
 
+    values.mergeOptions(options.game);
+
     const engine = Core.engine = new Engine({
-      forceOrientation: options.game.rotateWhenLandscape ? 'portrait' : null
+      forceOrientation: values.rotateWhenLandscape ? 'portrait' : null
     });
 
-    const game = new Game(options.game);
+    const game = new Game();
     const end = new EndScreen(options.endScreen);
 
     engine.stage.addChild(game);

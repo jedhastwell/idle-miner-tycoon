@@ -9,46 +9,13 @@ import values from './values.js';
 import TweenLite from 'TweenLite';
 import Pointer from './pointer.js';
 
-const defaults = {};
-
 
 class Game extends Container {
 
-  constructor (options = {}) {
+  constructor () {
     super();
 
     core.game = this;
-
-    const valuesOverride = {};
-
-    if ('gameOverText' in options) {
-      valuesOverride.gameOverText = options.gameOverText;
-    }
-
-    if ('introText' in options) {
-      valuesOverride.introText = options.introText;
-    }
-
-    if ('targetCash' in options) {
-      valuesOverride.targetCash = options.targetCash;
-    }
-
-    if ('idleTimeout' in options) {
-      valuesOverride.idleTimeoutToEnd = options.idleTimeout;
-    }
-
-    if (options.speed === 2) {
-      values.set(values.presets.fast);
-    };
-
-    if (options.speed === 3) {
-      values.set(values.presets.superFast);
-    };
-
-    values.set(valuesOverride);
-    
-    
-    this.options = util.merge(defaults, options);
 
     this.score = 0;
     this.cash = 0;
@@ -184,7 +151,7 @@ class Game extends Container {
 
     if (this.state < Game.State.Outro) {
       
-      if (values.idleTimeoutToEnd && this._idleTime > values.idleTimeoutToEnd) {
+      if (values.idleTimeout && this._idleTime > values.idleTimeout) {
         this.state = Game.State.Timeout;
       }
 

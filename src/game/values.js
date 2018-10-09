@@ -2,6 +2,9 @@ import util from '../util/util.js';
 // defaults, data, options, stats, settings, units, figures, details, values, specs, features, attributes
 const values = {
 
+  // Forces portrait layout event when device is in landscape orientation.
+  rotateWhenLandscape: true,
+
   // Distance in pixels between the left side of the refinary and the right side of the warehouse.
   worldSpan: 750,
 
@@ -58,16 +61,12 @@ const values = {
 
   // Specifies if the first mineshaft should already have a manager
   mineshaft1Manager: false,
-
   // Specifies if the 2nd mineshaft should already have a manager
   mineshaft2Manager: false,
-
   // Specifies if the 3rd mineshaft should already have a manager
   mineshaft3Manager: false,
-
   // Specifies if the elevator should already have a manager
   elevatorManager: false,
-
   // Specifies if the warehouse should already have a manager
   warehouseManager: false,
 
@@ -87,7 +86,7 @@ const values = {
   newManagerText: 'Manager',
 
   // Number of seconds of user idle time to wait before jumping to the end screen.
-  idleTimeoutToEnd: null,
+  idleTimeout: null,
 
   getCash: (value) => {
     return value * values.cashPerAmount;
@@ -115,6 +114,26 @@ const values = {
 
   set: function (obj) {
     util.extend(this, obj);
+
+    return this;
+  },
+
+  mergeOptions: function (options) {
+    
+    if ('speed' in options) {
+
+      if (options.speed === 2) {
+        this.set(values.presets.fast);
+      };
+  
+      if (options.speed === 3) {
+        this.set(values.presets.superFast);
+      };
+
+      delete options.speed;
+    }
+
+    return this.set(options);
   },
 
   presets: {
