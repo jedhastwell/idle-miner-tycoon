@@ -1,6 +1,6 @@
 {
   "name": "ffg-idle-miner",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Idle Miner Tycoon game for Fluffy Fairy Games",
   "main": "index.js",
   "scripts": {
@@ -37,7 +37,7 @@
   },
   "settings": {
     "title": "Idle Miner Tycoon",
-    "publicPath": "https://play.applift.com/fluffy-fairy-games/idle-miner-tycoon/1.1.1/",
+    "publicPath": "https://play.applift.com/fluffy-fairy-games/idle-miner-tycoon/1.2/",
     "targetUrl": "https://idleminertycoon.com/"
   }
 }
