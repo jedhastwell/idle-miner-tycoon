@@ -108,31 +108,6 @@ class PointerPool {
 
   }
 
-  clickNext () {
-    let pointer = null;
-
-    const w = this._sequence [0];
-
-    if (!util.is.nil(w)) {
-      for (const p of this._active) {
-        // if (!pointer || p.weight > pointer.weight) {
-        if (p.weight == w) {
-          pointer = p;
-        }
-      }
-  
-      if (pointer && util.is.fnc(pointer.clickAction)) {
-        this._sequence.splice(0,1);
-        pointer.showClick().then(() => {
-          pointer.clickAction();
-        });
-        
-      }
-
-    }
-
-  }
-
 }
 
 
