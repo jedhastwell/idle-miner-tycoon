@@ -638,6 +638,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">atlas/ui-button-cta.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0,0</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>37,45,73,89</rect>
+                <key>scale9Paddings</key>
+                <rect>37,45,73,89</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">atlas/ui-button-disabled.png</key>
             <key type="filename">atlas/ui-button.png</key>
             <struct type="IndividualSpriteSettings">

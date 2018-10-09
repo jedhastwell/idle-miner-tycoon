@@ -59,6 +59,13 @@
           "description": "Number of seconds of user idle time to wait before jumping to the end screen. Set to 0 to disable."
         },
 
+        "inGameCta": {
+          "type": "boolean",
+          "default": true,
+          "title": "In-Game CTA",
+          "description": "Specifies if the in-game CTA button should be displayed"
+        },
+
         "mineshaft1Manager": {
           "type": "boolean",
           "default": false,

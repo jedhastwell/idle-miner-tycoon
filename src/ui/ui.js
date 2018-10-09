@@ -1,4 +1,4 @@
-import { Container, Text, Sprite, Graphics } from "pixi.js";
+import { Texture, Container, Text, Sprite, Graphics } from "pixi.js";
 import Button from "./button";
 import CashButton from "./cashButton";
 import core from "../core";
@@ -159,6 +159,13 @@ class UI extends Container {
   }
 
   _populate () {
+
+    if (values.inGameCta) {
+      const ctaBtn = this._ctaBtn = new Button(Texture.fromImage('ui-button-cta.png'))
+      ctaBtn.on('pressed', PlayableKit.open);
+      this.addChild(ctaBtn);
+    }
+
     this._dimmer = new Graphics();
     this._dimmer.beginFill(0x000000);
     this._dimmer.drawRect(0, 0, 10, 10);
@@ -239,7 +246,6 @@ class UI extends Container {
 
     this._attachPointer(shaftBtn, 3);
     this._attachPointer(managerBtn, 4);  
-
     
   }
 
@@ -270,10 +276,28 @@ class UI extends Container {
   _layout () {
     let size = core.engine.screen;
 
-    this._shaftBtn.x = size.width * 0.7 - (this._shaftBtn.width * 0.5);
-    this._shaftBtn.y = size.height - 40 - this._shaftBtn.sprite.height;
+    const buttons = [this._managerBtn, this._shaftBtn];
 
-    this._managerBtn.x = size.width * 0.3 - (this._managerBtn.width * 0.5);
+    if (this._ctaBtn) {
+      buttons.unshift(this._ctaBtn);
+      this._ctaBtn.y = size.height - 10 - this._ctaBtn.sprite.height;
+    }
+
+    const buttonSpan = buttons
+    .map(btn => btn.sprite.width)
+    .reduce((prev, current) => {
+      return prev + current
+    });
+
+    const space = (size.width - buttonSpan) / (buttons.length + 1);
+
+    let x = space;
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].x = x;
+      x+= buttons[i].width + space;
+    }
+
+    this._shaftBtn.y = size.height - 40 - this._shaftBtn.sprite.height;
     this._managerBtn.y = size.height - 40 -  this._managerBtn.sprite.height;
 
     this._totalCashLabel.x = size.width * 0.5 - this._totalCashLabel.width * 0.5;

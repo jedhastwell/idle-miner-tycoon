@@ -85,6 +85,9 @@ const values = {
   // Text to display on the new manager button.
   newManagerText: 'Manager',
 
+  // Specifies if the in-game cta should be displayed.
+  inGameCta: false,
+
   // Number of seconds of user idle time to wait before jumping to the end screen.
   idleTimeout: null,
 
