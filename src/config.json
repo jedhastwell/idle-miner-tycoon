@@ -57,6 +57,41 @@
           "default": 0,
           "title": "Idle Timeout",
           "description": "Number of seconds of user idle time to wait before jumping to the end screen. Set to 0 to disable."
+        },
+
+        "mineshaft1Manager": {
+          "type": "boolean",
+          "default": false,
+          "title": "Mineshaft 1 Manager",
+          "description": "Specifies if the first mineshaft should already have a manager"
+        },
+
+        "mineshaft2Manager": {
+          "type": "boolean",
+          "default": false,
+          "title": "Mineshaft 2 Manager",
+          "description": "Specifies if the second mineshaft should already have a manager"
+        },
+
+        "mineshaft3Manager": {
+          "type": "boolean",
+          "default": false,
+          "title": "Mineshaft 3 Manager",
+          "description": "Specifies if the third mineshaft should already have a manager"
+        },
+
+        "elevatorManager": {
+          "type": "boolean",
+          "default": false,
+          "title": "Elevator Manager",
+          "description": "Specifies if the elevator should already have a manager"
+        },
+
+        "warehouseManager": {
+          "type": "boolean",
+          "default": false,
+          "title": "Warehouse Manager",
+          "description": "Specifies if the warehouse should already have a manager"
         }
 
       }
