@@ -56,6 +56,21 @@ const values = {
   // Cost of each manager.
   managerCosts: [50, 75],
 
+  // Specifies if the first mineshaft should already have a manager
+  mineshaft1Manager: false,
+
+  // Specifies if the 2nd mineshaft should already have a manager
+  mineshaft2Manager: false,
+
+  // Specifies if the 3rd mineshaft should already have a manager
+  mineshaft3Manager: false,
+
+  // Specifies if the elevator should already have a manager
+  elevatorManager: false,
+
+  // Specifies if the warehouse should already have a manager
+  warehouseManager: false,
+
   // Cost of each mineshaft.
   mineshaftCosts: [0, 50, 75],
 

@@ -62,7 +62,6 @@ class Building extends Container {
   addManager () {
     if (!this.hasManager) {
       this._manager = this._addManager();
-      this.promptWork();
     }
   }
 

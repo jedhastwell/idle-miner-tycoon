@@ -83,6 +83,16 @@ class World extends Container {
     this._refinery  = this.addRefinery();
     this._elevator  = this.addElevator();
     
+    if (values.elevatorManager) {
+      this._elevator.addManager();
+      this._refinery.addManager();
+      this._managerCount++;
+    }
+
+    if (values.warehouseManager) {
+      this._warehouse.addManager();
+      this._managerCount++;
+    }
   }
 
   linkComponentEvents () {
@@ -130,6 +140,7 @@ class World extends Container {
       if (this._mineShafts[index] && !this._mineShafts[index].hasManager) {
         this._mineShafts[index].addManager();
         this._managerCount++;
+        this._mineShafts[index].promptWork();
         return true;
       }
     }
@@ -295,7 +306,10 @@ class World extends Container {
         shaft.unload();
       }
     };
-    
+
+    if (values['mineshaft' + level + 'Manager']) {
+      shaft.addManager(true);
+    }
 
     this._elevator.levels = level;
     this._elevator.disabled = false;
