@@ -216,7 +216,13 @@ class UI extends Container {
       if (clickEvent) {
         core.game.interact();
       }
-      this._world.newLevel();
+
+      let levelsToAdd = Math.max(this._world.levelCount == 0 ? values.startingMineshafts : 1, 1);
+
+      for (let i = 0; i < levelsToAdd; i++) {
+        this._world.newLevel();
+      }
+
     }, this._world);
 
     this._world.on('newLevel', () => {

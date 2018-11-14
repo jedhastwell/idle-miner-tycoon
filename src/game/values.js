@@ -47,6 +47,9 @@ const values = {
   // Maximum number of mineshafts that can be purchased.
   maxMineshafts: 3,
 
+  // Number of mineshafts that get built at the start of the game.
+  startingMineshafts: 1,
+
   // Amount of cash each unit amount is worth.
   cashPerAmount: 50,
 

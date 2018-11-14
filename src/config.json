@@ -73,6 +73,13 @@
           "description": "Specifies if the in-game CTA button should be displayed"
         },
 
+        "startingMineshafts": {
+          "type": "number",
+          "default": 1,
+          "title": "Starting Mineshafts",
+          "description": "Number of mineshafts the player starts with at the begining of the game"
+        },
+
         "mineshaft1Manager": {
           "type": "boolean",
           "default": false,
