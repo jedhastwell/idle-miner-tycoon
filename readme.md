@@ -2,6 +2,14 @@
 
 ## Version Notes
 
+### v1.3.0
+_2018.11.15_
+
+* Add ability to configure the number of mineshafts that are built at the start of a game
+* Add tooltips to pointers
+* Fix bug where starting managers were not correctly added during a replay
+* Fix bug where the game could crash when starting a replay if a mineshaft had never unloaded
+
 ### 1.2.0
 _2018.10.09_
 
