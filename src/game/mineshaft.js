@@ -104,7 +104,7 @@ class Mineshaft extends Building {
     return Pointer.pool.make(this, 
       this._worker.x - this._worker.width * 0.25,
       this._worker.y - this._worker.height,
-    0, this.click.bind(this));
+    0, this.click.bind(this), values.tooltipMineshaft);
   }
 
   _addWorker () {

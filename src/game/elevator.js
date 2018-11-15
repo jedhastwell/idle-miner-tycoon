@@ -99,7 +99,11 @@ class Elevator extends Building {
   }
 
   _addPointer () {
-    return Pointer.pool.make(this._worker.parent, this._worker.x, this._worker.y - this._worker.height, 1, this.click.bind(this));
+    return Pointer.pool.make(this, 
+      this._worker.parent.x + this._worker.x, 
+      this._worker.parent.y + this._worker.y - this._worker.height, 
+      1, this.click.bind(this), 
+      values.tooltipElevator);
   }
 
   _populate () {
@@ -107,7 +111,7 @@ class Elevator extends Building {
 
     this._bottom = Sprite.fromImage('elevator-bottom.png');
     this.addChild(this._bottom);
-
+    
     this._addCab();
 
     const top = Sprite.fromImage('elevator-top.png');

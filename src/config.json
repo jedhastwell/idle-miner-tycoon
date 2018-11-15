@@ -113,6 +113,41 @@
           "default": false,
           "title": "Warehouse Manager",
           "description": "Specifies if the warehouse should already have a manager"
+        },
+
+        "tooltipNewShaft": {
+          "type": "string",
+          "default": null,
+          "title": "New Shaft Button Tooltip",
+          "description": "Help text to display with the pointer for the new shaft button"
+        },
+
+        "tooltipNewManager": {
+          "type": "string",
+          "default": null,
+          "title": "New Manager Button Tooltip",
+          "description": "Help text to display with the pointer for the new manager button"
+        },
+
+        "tooltipMineshaft": {
+          "type": "string",
+          "default": "Tap to dig",
+          "title": "New Manager Button Tooltip",
+          "description": "Help text to display with the pointer for the mineshaft worker"
+        },
+
+        "tooltipElevator": {
+          "type": "string",
+          "default": "Tap to\ntransport",
+          "title": "New Manager Button Tooltip",
+          "description": "Help text to display with the pointer for the elevator worker"
+        },
+
+        "tooltipWarehouse": {
+          "type": "string",
+          "default": "Tap to\ncollect",
+          "title": "New Manager Button Tooltip",
+          "description": "Help text to display with the pointer for the warehouse worker"
         }
 
       }

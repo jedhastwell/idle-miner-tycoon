@@ -1,4 +1,4 @@
-import {Container, Sprite, Texture, Rectangle, Circle} from 'pixi.js';
+import {Container, Sprite, Text, Texture, Rectangle, Circle} from 'pixi.js';
 import TimelineLite        from 'TimelineLite';
 import util from '../util/util';
 import core from '../core';
@@ -59,7 +59,7 @@ class PointerPool {
     this._pool.push(pointer);
   }
 
-  make(parent, x, y, weight, clickAction) {
+  make(parent, x, y, weight, clickAction, text) {
     const pointer = this.acquire(weight);
 
     if (util.is.obj(parent) && util.is.fnc(parent.addChild)) {
@@ -78,8 +78,7 @@ class PointerPool {
 
     pointer.autoClickTimeout = -1;
 
-    pointer.timeline.play(0);
-
+    pointer.reset(text);
 
     if (this.autoClickSequence.length && this.autoClickSequence[0].weight == weight) {
       pointer.autoClickTimeout = values.autoClickTimeout;
@@ -119,12 +118,37 @@ class Pointer extends Container {
     this.weight = 0;
     this.autoClickTimeout = -1;
 
+    const labelRange = - defaults.movementRange - 36;
+
+    const label = this.label = new Text('',  {
+      fontFamily : 'LeageSpartan',
+      fontSize: 24,
+      fill : 0xffffff,
+      strokeThickness: 4,
+      align: 'center',
+      lineHeight: 32
+    });
+    label.anchor.set(0.5, 1);
+    label.position.set(0, labelRange);
+    label.visible = false;
+    this.addChild(label);
+
+
+    const ltl = this.labelTimeline = new TimelineLite();
+
+    ltl.to(label, 0.65, {y: labelRange * 0.6, ease: Quad.easeIn}, '+=0');
+    ltl.to(label, 0.8, {y: labelRange, ease: Quint.Out}, '+=0.06');
+    ltl.call(ltl.play, [0], ltl, '+=0.3');
+    this.once('destroyed', ltl.kill, ltl);
+
+
+
     const arrow = Sprite.fromImage('pointer.png');
     arrow.anchor.set(0.5, 0.8);
     arrow.y = -defaults.movementRange;
     this.addChild(arrow);
 
-    const tl = this.timeline = new TimelineLite();
+    const tl = this.arrowTimeline = new TimelineLite();
 
     tl.to(arrow, 0.35, {y: 0, width: arrow.texture.width * 0.7, ease: Quad.easeIn});
     tl.to(arrow, 0.18, {y: -defaults.movementRange * 0.25, width: arrow.texture.width * 0.9, ease: Quad.easeInOut});
@@ -144,13 +168,28 @@ class Pointer extends Container {
 
   }
 
+  reset (text) {
+
+    if (text) {
+      this.label.text = text;
+      this.labelTimeline.play(0);
+    } else {
+      this.labelTimeline.stop();
+    }
+
+    this.label.visible = !!text;
+    this.arrowTimeline.play(0);
+
+  }
+
   destroy () {
     this.emit('destroyed');
     super.destroy({children: true});
   }
 
   expire () {
-    this.timeline.stop();
+    this.labelTimeline.stop();
+    this.arrowTimeline.stop();
     this.emit('expired');
   }
 

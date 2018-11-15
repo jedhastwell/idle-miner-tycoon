@@ -257,15 +257,15 @@ class UI extends Container {
   _attachButtonPointers () {
     if (!this._pointersAttached) {
       this._pointersAttached = true;
-      this._attachPointer(this._shaftBtn, 3);
-      this._attachPointer(this._managerBtn, 4);
+      this._attachPointer(this._shaftBtn, 3, values.tooltipNewShaft);
+      this._attachPointer(this._managerBtn, 4, values.tooltipNewManager);
     }
   }
 
-  _attachPointer (button, weight) {
+  _attachPointer (button, weight, text) {
     
     if (!button.disabled && !button.pointer) {
-      button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (e) => {button.emit('pressed', button, e)});
+      button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (e) => {button.emit('pressed', button, e)}, text);
       button.pointer.autoClickTimeout = values.autoClickTimeout;
     }
 
@@ -273,7 +273,7 @@ class UI extends Container {
 
       if (e.oldState == Button.State.DISABLED) {
         if (!button.pointer) {
-          button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (e) => {button.emit('pressed', button, e)});
+          button.pointer = Pointer.pool.make(button, button.width / 2, 0, weight, (e) => {button.emit('pressed', button, e)}, text);
         }
       }
 

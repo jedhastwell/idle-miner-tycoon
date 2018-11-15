@@ -88,6 +88,21 @@ const values = {
   // Text to display on the new manager button.
   newManagerText: 'Manager',
 
+  // Help text to display with the pointer for the new shaft button.
+  tooltipNewShaft: null,
+
+  // Help text to display with the pointer for the new manager button.
+  tooltipNewManager: null,
+
+  // Help text to display with the pointer for the mineshaft worker.
+  tooltipMineshaft: "Tap to dig",
+
+  // Help text to display with the pointer for the elevator worker.
+  tooltipElevator: "Tap to\ntransport",
+
+  // Help text to display with the pointer for the warehouse worker.
+  tooltipWarehouse: "Tap to\ncollect",
+
   // Specifies if the in-game cta should be displayed.
   inGameCta: false,
 
