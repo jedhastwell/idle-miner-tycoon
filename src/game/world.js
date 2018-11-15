@@ -48,6 +48,7 @@ class World extends Container {
     this._elevator.reset();
     this._refinery.reset();
     this._warehouse.reset();
+    this.addStartingManagers();
   }
 
   get bounds () {
@@ -83,6 +84,11 @@ class World extends Container {
     this._refinery  = this.addRefinery();
     this._elevator  = this.addElevator();
     
+    this.addStartingManagers();
+    
+  }
+
+  addStartingManagers () {
     if (values.elevatorManager) {
       this._elevator.addManager();
       this._refinery.addManager();
