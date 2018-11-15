@@ -36,7 +36,9 @@ class Mineshaft extends Building {
 
   destroy () {
     this._worker.timeline.kill();
-    this._crate.timeline.kill();
+    if (this._crate.timeline) {
+      this._crate.timeline.kill();
+    }
     this.emit('destroy');
     super.destroy({children: true});
   }
