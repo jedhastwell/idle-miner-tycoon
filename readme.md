@@ -2,6 +2,12 @@
 
 ## Version Notes
 
+### v1.3.1
+_2018.11.30_
+
+* Adding a new line to a string setting is now done with the token {n} to better support the editor
+* Modify build output to make compatible with the Gamewheel Playable Editor
+
 ### v1.3.0
 _2018.11.15_
 
