@@ -1,3 +1,4 @@
+const GenerateJsonPlugin = require('generate-json-webpack-plugin');
 const WebpackAutoInject = require('webpack-auto-inject-version');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -94,6 +95,14 @@ module.exports = (env, argv) => {
         { from: './src/config.json'},
         { from: './readme.md'}
       ]),
+      new GenerateJsonPlugin('manifest.json', {
+        "name": pkg.settings.title,
+        "version": pkg.version,
+        "playableKit": pkg.settings.playableKit,
+        "launcher": `index.bundle_${ver2}.js`,
+        "bundle": null,
+        "configSchema": "config.json"
+      }, null, 2),
       new WebpackAutoInject({
         SILENT: true,
         components: {

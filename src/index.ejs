@@ -5,7 +5,7 @@
     <title><%= htmlWebpackPlugin.options.manifest %></title>
   </head>
   <body>
-    <script src="https://play.applift.com/playablekit/playablekit-0.6.1.js"></script>
+    <script src="https://play.applift.com/playablekit/playablekit-0.6.3.js"></script>
     <script>
       PlayableKit(<%=JSON.stringify(require('../compile/configBuilder.js'), null, 2)%>);
     </script>
