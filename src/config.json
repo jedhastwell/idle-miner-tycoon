@@ -138,14 +138,14 @@
 
         "tooltipElevator": {
           "type": "string",
-          "default": "Tap to\ntransport",
+          "default": "Tap to{n}transport",
           "title": "New Manager Button Tooltip",
           "description": "Help text to display with the pointer for the elevator worker"
         },
 
         "tooltipWarehouse": {
           "type": "string",
-          "default": "Tap to\ncollect",
+          "default": "Tap to{n}collect",
           "title": "New Manager Button Tooltip",
           "description": "Help text to display with the pointer for the warehouse worker"
         }

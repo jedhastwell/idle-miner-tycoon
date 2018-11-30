@@ -139,6 +139,12 @@ const values = {
   set: function (obj) {
     util.extend(this, obj);
 
+    Object.entries(this).forEach(([key, value]) => {
+      if (util.is.str(value)) {
+        this[key] = this[key].split('{n}').join('\n');
+      }
+    });
+
     return this;
   },
 
