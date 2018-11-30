@@ -41,13 +41,5 @@
     "publicPath": "https://play.applift.com/fluffy-fairy-games/idle-miner-tycoon/1.3/",
     "targetUrl": "https://idleminertycoon.com/",
     "playableKit": "0.6.3"
-  },
-  "manifest": {
-    "name": "Idle Miner Tycoon",
-    "version": "{version}",
-    "playableKit": "0.6.3",
-    "launcher": "index.bundle_{V2}.js",
-    "bundle": null,
-    "configSchema": "config.json"
   }
 }
