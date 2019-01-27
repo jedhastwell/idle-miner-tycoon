@@ -1,5 +1,5 @@
 <script src="mraid.js"></script>
-<script src="https://play.applift.com/playablekit/playablekit-0.6.1.js"></script>
+<script src="<%= htmlWebpackPlugin.options.playableKit %>"></script>
 <script>
-  PlayableKit(<%=JSON.stringify(require('../compile/configBuilder.js'), null, 2)%>);
+PlayableKit(<%=JSON.stringify(require('../build/configBuilder.js'), null, 2)%>);
 </script>

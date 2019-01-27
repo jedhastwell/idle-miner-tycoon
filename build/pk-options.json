@@ -1,0 +1,8 @@
+{
+  "appPath": "{{appPath}}",
+  "appLauncher": "{{appLauncher}}",
+  "config": {
+    "targetUrl": "{{targetUrl}}",
+    "addCloseButton": false
+  }
+}

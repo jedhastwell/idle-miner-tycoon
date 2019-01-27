@@ -24,10 +24,18 @@ PlayableKit.onReady(function (options) {
   loadScreen = new LoadScreen(options.loadScreen);
 
   // Downlaod application.
-  require.ensure('./app.js', () => {
+  let appScript = Promise.resolve();
+
+  if (INLINE) {
     Application = require('./app.js').default;
-    loadScreen.progressBy(30);
-  }, 'app')
+  } else {
+    appScript = require.ensure('./app.js', () => {
+      Application = require('./app.js').default;
+      loadScreen.progressBy(30);
+    }, 'app');
+  }
+
+  appScript
   // Tell application to load the assets it needs.
   .then(() => {
     return Application.load((progress) => {
@@ -54,14 +62,13 @@ PlayableKit.onReady(function (options) {
 PlayableKit.onViewable(function (options) {
 
   // Your application is ready to display on screen.
-  if (!PlayableKit.started) {
+  if (!INLINE && !PlayableKit.started) {
 
     // Send analytics that the user is seeing a loading screen.
     PlayableKit.analytics.loading();
 
     // Show a loading screen.
     loadScreen.show();
-
   }
 
 });

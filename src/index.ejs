@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title><%= htmlWebpackPlugin.options.manifest %></title>
-  </head>
-  <body>
-    <script src="https://play.applift.com/playablekit/playablekit-0.6.3.js"></script>
-    <script>
-      PlayableKit(<%=JSON.stringify(require('../compile/configBuilder.js'), null, 2)%>);
-    </script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+  <script src="<%= htmlWebpackPlugin.options.playableKit %>"></script>
+  <script>
+
+    PlayableKit(<%=JSON.stringify(require('../build/configBuilder.js'), null, 2)%>);
+
+  </script>
+</body>
 </html>

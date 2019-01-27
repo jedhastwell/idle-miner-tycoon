@@ -1,7 +1,6 @@
-const getDefaults    = require('json-schema-defaults');
-
-const pkSchema       = require('./pk-schema.json');
-const appSchema      = require('../src/config.json');
+const getDefaults = require('json-schema-defaults');
+const pkOptions   = require('./pk-options.json');
+const appSchema   = require('../src/config.json');
 
 const manifest = {
   appLauncher: APP_LAUNCHER,
@@ -9,7 +8,7 @@ const manifest = {
   targetUrl  : TARGET_URL
 }
 
-let settings = getDefaults(pkSchema);
+let settings = pkOptions;
 const appConfig = getDefaults(appSchema);
 
 settings.config = settings.config || {};
@@ -23,7 +22,5 @@ settings = JSON.parse(JSON.stringify(settings), (key, value) => {
   }
   return value;
 });
-
-
 
 module.exports = settings;
