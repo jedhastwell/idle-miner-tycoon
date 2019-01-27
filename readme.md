@@ -2,6 +2,11 @@
 
 ## Version Notes
 
+### v1.3.2
+_2019.01.28_
+
+* Rework build process to add download support for playable editor
+
 ### v1.3.1
 _2018.11.30_
 
