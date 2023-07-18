@@ -1,5 +1,9 @@
 # FFG Idle Miner Tycoon Playable
 
+A playable ad unit for Idle Miner Tycoon using Pixi.js
+
+Live version here: https://f002.backblazeb2.com/file/whistlefire/portfolio/ad-units/idle-miner-tycoon/index.html
+
 ## Version Notes
 
 ### v1.3.2
